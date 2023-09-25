@@ -1,0 +1,21 @@
+@media (max-width: 414px) {
+    .container {
+      height: 400px !important;
+      text-align: center;
+    }
+    .footer_menus {
+      flex-direction: column;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 2rem;
+      text-align: center;
+    }
+    .address {
+      width: 80% !important;
+      margin: 0 auto;
+    }
+  
+    .copyright {
+      padding-top: 1rem;
+    }
+  }
