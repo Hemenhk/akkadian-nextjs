@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import {
   Button,
@@ -16,6 +16,8 @@ import NavLinks from "./NavLinks";
 
 export default function SideNav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
   const btnRef = useRef<HTMLButtonElement>(null);
 
   return (
@@ -44,7 +46,7 @@ export default function SideNav() {
           </DrawerHeader>
 
           <DrawerBody>
-            <NavLinks />
+            <NavLinks isOpen={isOpen} onClose={onClose} />
           </DrawerBody>
         </DrawerContent>
       </Drawer>
