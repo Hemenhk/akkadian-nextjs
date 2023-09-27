@@ -1,9 +1,7 @@
 import Link from "next/link";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import ShopDrawer from "./ShopDrawer";
-import { useShopifyContext } from "@/app/context/store";
-import { signOut, useSession } from "next-auth/react";
-import TheButton from "@/components/ui/TheButton";
+import { useSession } from "next-auth/react";
 
 type NavLinksProps = {
   isOpen: boolean;
@@ -12,7 +10,6 @@ type NavLinksProps = {
 
 export default function NavLinks({ onClose, isOpen }: NavLinksProps) {
   const { data: session, status } = useSession();
-  const loading = status === "loading";
 
   const closeDrawerHandler = () => {
     console.log("closeDrawerHandler called");
@@ -21,10 +18,6 @@ export default function NavLinks({ onClose, isOpen }: NavLinksProps) {
         onClose();
       }, 1000);
     }
-  };
-
-  const signOutHandler = () => {
-    signOut();
   };
 
   const isAuthenticated = (
@@ -68,8 +61,6 @@ export default function NavLinks({ onClose, isOpen }: NavLinksProps) {
         </li>
         {session ? isAuthenticated : isNotAuthenticated}
       </ul>
-
-      {session && <TheButton label="sign out" onClick={signOutHandler} />}
     </div>
   );
 }

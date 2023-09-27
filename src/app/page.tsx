@@ -14,7 +14,6 @@ export default function Home() {
       <div
         className={`flex flex-col justify-start gap-10 h-[600px] w-screen ${classes.bg}`}
       >
-        {/* <MainNav /> */}
         <div className="relative top-[40%] pl-8 ">
           <HeroBanner />
         </div>

@@ -24,8 +24,8 @@ export async function handler(req: NextRequest) {
     const oldPassword: string = reqBody?.oldPassword;
     const newPassword: string = reqBody?.newPassword;
 
-    console.log("Received oldPassword:", oldPassword);
-    console.log("Received newPassword:", newPassword);
+    // console.log("Received oldPassword:", oldPassword);
+    // console.log("Received newPassword:", newPassword);
 
     if (!oldPassword || !newPassword) {
       return NextResponse.json({
