@@ -7,6 +7,7 @@ import TheAnnouncement from "@/components/announcement/TheAnnouncement";
 import TheFooter from "@/components/footer/TheFooter";
 import { ShopifyContextProvider } from "./context/store";
 import NextAuthProvider from "./context/next-auth";
+import { getServerSession } from "next-auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-roboto-mono" });
 
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   description: "Ecommerce store for hair and beard products",
 };
 
-export default function RootLayout({ children }: Children) {
+export default  function RootLayout({ children }: Children) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${noto_sans.variable}`}>

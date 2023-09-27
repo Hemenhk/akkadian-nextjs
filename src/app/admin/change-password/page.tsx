@@ -1,11 +1,11 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { useEffect } from "react";
 
 import * as z from "zod";
-import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { signIn, useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,65 +17,67 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import axios from "axios";
 
 const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Email must be at least 2 characters.",
+  oldPassword: z.string().min(8, {
+    message: "Old password must be at least 8 characters.",
   }),
-  password: z
+  newPassword: z
     .string()
-    .min(2, {
-      message: "Password must be at least 2 characters.",
+    .min(8, {
+      message: "New password must be at least 2 characters.",
     })
     .trim(),
 });
 
-export default function SignupPage() {
+export default function ChangePassword() {
+  const { data: session } = useSession();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      oldPassword: "",
+      newPassword: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log("form values", values);
     try {
-
-      await axios.post("/api/auth", values, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      router.push("/signin");
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.error("Zod validation error:", error.errors);
+      await axios.patch("/api/auth/change-password", values);
+    } catch (error: any) {
+      if (error.response) {
+        // The error has a response property, so it's an HTTP error response
+        console.error(
+          "HTTP error:",
+          error.response.status,
+          error.response.data
+        );
       } else {
-        console.error("Error:", error);
+        // It's a different type of error (e.g., network error)
+        console.error("Error:", error.message);
       }
     }
   };
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-10">
-      <h2 className="font-bold">Create Admin</h2>
+      <h2 className="font-bold">Change Password</h2>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-8  w-[70%] lg:w-[600px] px-16"
         >
           <FormField
             control={form.control}
-            name="email"
+            name="oldPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Old Password</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="email" {...field} />
+                  <Input type="text" placeholder="old password" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -84,12 +86,12 @@ export default function SignupPage() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="newPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>New Password</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="password" {...field} />
+                  <Input type="text" placeholder="new password" {...field} />
                 </FormControl>
 
                 <FormMessage />

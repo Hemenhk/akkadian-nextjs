@@ -23,6 +23,5 @@ const AdminAuth: Model<AdminAuthDocument> =
   mongoose.models.AdminAuth ||
   mongoose.model<AdminAuthDocument>("AdminAuth", adminAuthSchema);
 
-// const AdminAuth = mongoose.model("AdminAuth", adminAuthSchema)
 
 export default AdminAuth;

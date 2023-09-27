@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -31,8 +31,16 @@ const formSchema = z.object({
     .trim(),
 });
 
-export default function SignupPage() {
+export default function SigninPage() {
+  const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if(session){
+      router.push("/")
+    }
+  }, [session, router])
+  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,29 +50,29 @@ export default function SignupPage() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
+      const res = await signIn("credentials", {
         email: values.email,
         password: values.password,
+        redirect: false,
       });
-      console.log("Signed in!");
+      console.log(res);
+      console.log({ res });
 
-      if(result?.error){
-        console.log("error")
-      }
       setTimeout(() => {
-        router.push("/");
+        redirect("/admin");
       }, 2000);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex flex-col items-center justify-center gap-10 py-10">
       <h2 className="font-bold">Admin Sign in</h2>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-8  w-[70%] lg:w-[600px] px-16"
         >
           <FormField

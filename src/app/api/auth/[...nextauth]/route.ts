@@ -4,29 +4,30 @@ import AdminAuth from "@/models/adminAuth";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export default NextAuth({
+const handler = NextAuth({
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { type: "password" },
+        
       },
-      name: "Credentials",
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        await connectToDatabase();
         if (!credentials) {
           throw new Error("Credentials are missing");
         }
 
-        await connectToDatabase();
-
-        const adminUser = await AdminAuth.findOne({ email: credentials.email });
+      
+        const adminUser = await AdminAuth.findOne({ email: credentials?.email }).select("+password");
 
         if (!adminUser) {
           throw new Error("No admin was found");
         }
 
         const validPassword = await verifyPassword(
-          credentials.password,
+          credentials?.password || "",
           adminUser.password
         );
 
@@ -34,12 +35,20 @@ export default NextAuth({
           throw new Error("Password was incorrect!");
         }
 
-        // Return a user object with an 'id' property
-        return {
-          id: adminUser._id.toString(), // Convert ObjectId to string
-          email: adminUser.email,
-        };
+        if (validPassword) {
+          console.log(validPassword)
+          return {
+            id: adminUser._id,
+            email: adminUser.email,
+          };
+        }
+        return null;
       },
     }),
   ],
+  pages: {
+    signIn: "/signin",
+  },
 });
+
+export { handler as GET, handler as POST };

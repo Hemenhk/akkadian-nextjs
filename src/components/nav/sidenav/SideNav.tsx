@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { FiMenu } from "react-icons/fi";
 import {
   Button,

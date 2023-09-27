@@ -9,3 +9,4 @@ export async function verifyPassword(password: string, hashedPassword: string) {
   const passwordIsValid = await compare(password, hashedPassword);
   return passwordIsValid;
 }
+                                         
