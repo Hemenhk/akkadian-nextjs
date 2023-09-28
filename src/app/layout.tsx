@@ -1,13 +1,16 @@
-
-import MainNav from "@/components/nav/MainNav";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Noto_Sans } from "next/font/google";
+
 import { Providers } from "./providers";
+import NextAuthProvider from "./context/next-auth";
+import { ShopifyContextProvider } from "./context/store";
+
+import MainNav from "@/components/nav/MainNav";
 import TheAnnouncement from "@/components/announcement/TheAnnouncement";
 import TheFooter from "@/components/footer/TheFooter";
-import { ShopifyContextProvider } from "./context/store";
-import NextAuthProvider from "./context/next-auth";
+
+import "./globals.css";
+import { getServerSession } from "next-auth";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-roboto-mono" });
 
@@ -27,7 +30,28 @@ export const metadata: Metadata = {
   description: "Ecommerce store for hair and beard products",
 };
 
-export default  function RootLayout({ children }: Children) {
+export default async function RootLayout({ children }: Children) {
+  const session = await getServerSession();
+
+  const isAdmin = (
+    <div className="flex flex-row">
+      <div className="w-1/4 bg-gray-400">Hello</div>
+      <div>
+        <TheAnnouncement />
+        <MainNav />
+        {children}
+      </div>
+      <div className="w-1/4 bg-gray-400">Hello</div>
+    </div>
+  );
+
+  const isNotAdmin = (
+    <>
+      <TheAnnouncement />
+      <MainNav />
+      {children}
+    </>
+  );
 
   return (
     <html lang="en">
@@ -35,11 +59,7 @@ export default  function RootLayout({ children }: Children) {
         <NextAuthProvider>
           <Providers>
             <ShopifyContextProvider>
-              {/* {!isHomePage ? <MainNav /> : <TheAnnouncement />} */}
-              <TheAnnouncement />
-              <MainNav />
-              {children}
-
+              {session ? isAdmin : isNotAdmin}
               <div className="pt-14">
                 <TheFooter />
               </div>
