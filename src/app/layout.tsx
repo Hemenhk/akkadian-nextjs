@@ -11,6 +11,7 @@ import TheFooter from "@/components/footer/TheFooter";
 
 import "./globals.css";
 import { getServerSession } from "next-auth";
+import AdminNav from "@/components/nav/admin-nav/AdminNav";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-roboto-mono" });
 
@@ -31,19 +32,21 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Children) {
-  const session = await getServerSession();
+  // const session = await getServerSession();
 
-  const isAdmin = (
-    <div className="flex flex-row">
-      <div className="w-1/4 bg-gray-400">Hello</div>
-      <div>
-        <TheAnnouncement />
-        <MainNav />
-        {children}
-      </div>
-      <div className="w-1/4 bg-gray-400">Hello</div>
-    </div>
-  );
+  // const isAdmin = (
+  //   <div className="flex flex-row">
+  //     <div className="flex justify-center w-1/4 border-r">
+  //       <AdminNav />
+  //     </div>
+  //     <div>
+  //       <TheAnnouncement />
+  //       <MainNav />
+  //       {children}
+  //     </div>
+  //     <div className="w-1/4 border-l">Hello</div>
+  //   </div>
+  // );
 
   const isNotAdmin = (
     <>
@@ -59,7 +62,8 @@ export default async function RootLayout({ children }: Children) {
         <NextAuthProvider>
           <Providers>
             <ShopifyContextProvider>
-              {session ? isAdmin : isNotAdmin}
+              {/* {session ? isAdmin : isNotAdmin} */}
+              {isNotAdmin}
               <div className="pt-14">
                 <TheFooter />
               </div>
