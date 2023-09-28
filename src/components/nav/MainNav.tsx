@@ -10,10 +10,12 @@ import CartIcon from "../cart/CartIcon";
 import { usePathname } from "next/navigation";
 import TheButton from "../ui/TheButton";
 import { signOut } from "next-auth/react";
+import { position } from "@chakra-ui/react";
 
 export default function MainNav() {
   const pathname = usePathname();
   const isAdminPage = pathname === "/admin";
+  const isHomePage = pathname === "/";
 
   const signOutHandler = () => {
     signOut();
@@ -26,7 +28,7 @@ export default function MainNav() {
         <Image src={logo} alt="logo" width={50} height={50} />
       </Link>
       <TheButton label="sign out" onClick={signOutHandler} width="w-[200px]" />
-    </> 
+    </>
   );
 
   const notAdminHeader = (
@@ -40,7 +42,7 @@ export default function MainNav() {
   );
 
   return (
-    <div className="flex h-[125px] justify-between items-center p-10 border-b  transition ease-out duration-300 hover:bg-white">
+    <div className={`flex h-[125px] justify-between items-center p-10 border-b transition ease-out duration-300 bg-transparent ${isHomePage && "absolute w-full"} hover:bg-white`} >
       {isAdminPage ? adminHeader : notAdminHeader}
     </div>
   );

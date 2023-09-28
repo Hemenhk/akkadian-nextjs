@@ -3,6 +3,7 @@ import HeroBanner from "@/components/hero/HeroBanner";
 
 import classes from "./Home.module.css";
 import FeaturedCollection from "@/components/featured-collection/FeaturedCollection";
+import MainNav from "@/components/nav/MainNav";
 
 
 
