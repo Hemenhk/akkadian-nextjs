@@ -1,7 +1,8 @@
-import { connectToDatabase } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
-import AdminDashboard from "@/models/adminDashboard";
 import { NextApiRequest } from "next";
+import { NextRequest, NextResponse } from "next/server";
+
+import AdminDashboard from "@/models/adminDashboard";
+import { connectToDatabase } from "@/lib/db";
 
 export async function PATCH(req: NextRequest) {
   try {
@@ -10,22 +11,26 @@ export async function PATCH(req: NextRequest) {
     const reqBody = await req.json();
 
     const idString = "65152288f3855600d0a212a6";
-    const announcementText: string = reqBody.announcementText;
-    const announcementColor: string = reqBody.announcementColor;
 
-    console.log(announcementText);
-    console.log(announcementColor);
+    const heroImage: string = reqBody.heroImage;
+    const heroHeading: string = reqBody.heroHeading;
+    const heroSubHeading: string = reqBody.heroSubHeading;
+    const heroButtonText: string = reqBody.heroButtonText;
+    const heroButtonColor: string = reqBody.heroButtonColor;
 
     const id = await AdminDashboard.findOne({ _id: idString });
 
-    const announcementValues = await AdminDashboard.updateOne(
+    const heroValues = await AdminDashboard.updateOne(
       {
         _id: id,
       },
       {
         $set: {
-          announcementColor: announcementColor,
-          announcementText: announcementText,
+          heroImage: heroImage,
+          heroHeading: heroHeading,
+          heroSubHeading: heroSubHeading,
+          heroButtonText: heroButtonText,
+          heroButtonColor: heroButtonColor,
         },
       }
     );
@@ -34,7 +39,7 @@ export async function PATCH(req: NextRequest) {
       status: 200,
       success: true,
       data: {
-        announcement: announcementValues,
+        hero: heroValues,
       },
     });
   } catch (error: any) {
@@ -51,16 +56,16 @@ export async function PATCH(req: NextRequest) {
 export async function GET() {
   try {
     await connectToDatabase();
-    const announcementValue = await AdminDashboard.find();
+    const heroValues = await AdminDashboard.find();
 
-    if (!announcementValue) {
-      throw new Error("Document not found");
+    if (!heroValues) {
+      throw new Error("Document not found!");
     }
 
     return NextResponse.json({
       status: 200,
       success: true,
-      announcementValue,
+      heroValues,
     });
   } catch (error: any) {
     return NextResponse.json({

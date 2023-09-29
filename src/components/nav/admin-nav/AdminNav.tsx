@@ -5,7 +5,7 @@ export default function AdminNav() {
   const adminNavLinks = [
     { title: "Home", href: "/" },
     { title: "Announcement", href: "/admin/announcement" },
-    { title: "Hero Banner", href: "/2" },
+    { title: "Hero Banner", href: "/admin/hero-banner" },
     { title: "Change Password", href: "/admin/change-password" },
   ];
 

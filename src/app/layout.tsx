@@ -31,23 +31,7 @@ export const metadata: Metadata = {
   description: "Ecommerce store for hair and beard products",
 };
 
-export default async function RootLayout({ children }: Children) {
-  // const session = await getServerSession();
-
-  // const isAdmin = (
-  //   <div className="flex flex-row">
-  //     <div className="flex justify-center w-1/4 border-r">
-  //       <AdminNav />
-  //     </div>
-  //     <div>
-  //       <TheAnnouncement />
-  //       <MainNav />
-  //       {children}
-  //     </div>
-  //     <div className="w-1/4 border-l">Hello</div>
-  //   </div>
-  // );
-
+export default function RootLayout({ children }: Children) {
   const isNotAdmin = (
     <>
       <TheAnnouncement />
@@ -62,7 +46,6 @@ export default async function RootLayout({ children }: Children) {
         <NextAuthProvider>
           <Providers>
             <ShopifyContextProvider>
-              {/* {session ? isAdmin : isNotAdmin} */}
               {isNotAdmin}
               <div className="pt-14">
                 <TheFooter />
