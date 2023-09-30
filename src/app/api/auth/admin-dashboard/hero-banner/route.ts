@@ -10,9 +10,8 @@ export async function PATCH(req: NextRequest) {
 
     const reqBody = await req.json();
 
-    const idString = "65152288f3855600d0a212a6";
+    const idString = "65187cf0f9121cfb00e1a491";
 
-    const heroImage: string = reqBody.heroImage;
     const heroHeading: string = reqBody.heroHeading;
     const heroSubHeading: string = reqBody.heroSubHeading;
     const heroButtonText: string = reqBody.heroButtonText;
@@ -26,7 +25,6 @@ export async function PATCH(req: NextRequest) {
       },
       {
         $set: {
-          heroImage: heroImage,
           heroHeading: heroHeading,
           heroSubHeading: heroSubHeading,
           heroButtonText: heroButtonText,

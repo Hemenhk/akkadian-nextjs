@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import * as z from "zod";
-import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,11 +19,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-import { useRouter } from "next/navigation";
+import { Oval } from "react-loader-spinner";
 
 const formSchema = z.object({
-  heroImage: z.string(),
   heroHeading: z.string(),
   heroSubHeading: z.string(),
   heroButtonText: z.string(),
@@ -28,8 +31,8 @@ const formSchema = z.object({
 });
 
 export default function HeroPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const [heroValues, setHeroValues] = useState({
-    heroImage: "",
     heroHeading: "",
     heroSubHeading: "",
     heroButtonText: "",
@@ -40,14 +43,15 @@ export default function HeroPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const data = await axios.get("/api/auth/admin-dashboard/hero-banner");
         setHeroValues({
-          heroImage: data.data.heroValues[0].heroImage,
           heroHeading: data.data.heroValues[0].heroHeading,
           heroSubHeading: data.data.heroValues[0].heroSubHeading,
           heroButtonText: data.data.heroValues[0].heroButtonText,
           heroButtonColor: data.data.heroValues[0].heroButtonColor,
         });
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -58,14 +62,12 @@ export default function HeroPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      heroImage: "",
       heroHeading: "",
       heroSubHeading: "",
       heroButtonText: "",
       heroButtonColor: "",
     },
     values: {
-      heroImage: heroValues.heroImage,
       heroHeading: heroValues.heroHeading,
       heroSubHeading: heroValues.heroSubHeading,
       heroButtonText: heroValues.heroButtonText,
@@ -104,20 +106,6 @@ export default function HeroPage() {
           onSubmit={form.handleSubmit(handleSubmit)}
           className="space-y-6 w-full px-4"
         >
-          <FormField
-            control={form.control}
-            name="heroImage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Hero Image</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="hero image" {...field} />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="heroHeading"
@@ -190,7 +178,19 @@ export default function HeroPage() {
             className="w-full rounded-sm px-16 uppercase tracking-widest"
             type="submit"
           >
-            Save
+            {isLoading ? (
+              <div className="flex flex-row items-center justify-center gap-2">
+                <Oval
+                  height={20}
+                  width={20}
+                  color="#e5e7eb"
+                  secondaryColor="#e5e7eb"
+                />
+                Saving
+              </div>
+            ) : (
+              <p>Save</p>
+            )}
           </Button>
         </form>
       </Form>

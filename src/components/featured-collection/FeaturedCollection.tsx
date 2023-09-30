@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { fetchCollectionWithHandle } from "@/shopify/shopify-req";
 
@@ -6,13 +6,18 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import CollectionPrice from "../collection/CollectionPrice";
+import { Collection } from "shopify-buy";
 
-export default async function FeaturedCollection({
-  handle,
-}: {
-  handle: string;
-}) {
-  const collection = await fetchCollectionWithHandle(handle);
+export default function FeaturedCollection({ handle }: { handle: string }) {
+  const [collection, setCollection] = useState<Collection | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetchCollectionWithHandle(handle);
+      setCollection(res);
+    };
+    fetchData();
+  }, [handle]);
 
   const mappedCollection =
     collection &&

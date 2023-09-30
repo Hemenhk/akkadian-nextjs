@@ -6,7 +6,7 @@ export default function AdminNav() {
     { title: "Home", href: "/" },
     { title: "Announcement", href: "/admin/announcement" },
     { title: "Hero Banner", href: "/admin/hero-banner" },
-    { title: "Change Password", href: "/admin/change-password" },
+    { title: "Hero Image", href: "/admin/hero-image" },
   ];
 
   return (

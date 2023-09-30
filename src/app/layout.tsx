@@ -10,8 +10,6 @@ import TheAnnouncement from "@/components/announcement/TheAnnouncement";
 import TheFooter from "@/components/footer/TheFooter";
 
 import "./globals.css";
-import { getServerSession } from "next-auth";
-import AdminNav from "@/components/nav/admin-nav/AdminNav";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-roboto-mono" });
 

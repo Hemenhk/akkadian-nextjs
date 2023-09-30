@@ -9,7 +9,7 @@ export async function PATCH(req: NextRequest) {
 
     const reqBody = await req.json();
 
-    const idString = "65152288f3855600d0a212a6";
+    const idString = "65187cf0f9121cfb00e1a491";
     const announcementText: string = reqBody.announcementText;
     const announcementColor: string = reqBody.announcementColor;
 
