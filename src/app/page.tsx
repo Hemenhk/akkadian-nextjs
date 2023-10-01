@@ -1,11 +1,12 @@
 "use client";
 
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 import HeroBanner from "@/components/hero/HeroBanner";
 import FeaturedCollection from "@/components/featured-collection/FeaturedCollection";
 
-// import bg from "../assets/images/home-bg.jpg";
-import axios from "axios";
-import { useEffect, useState } from "react";
+
 
 export default function Home() {
   const [bgImage, setBgImage] = useState("");

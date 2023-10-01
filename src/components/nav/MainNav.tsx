@@ -48,7 +48,7 @@ export default function MainNav() {
     <div
       className={`flex h-[125px] justify-between items-center p-10 border-b transition ease-out duration-300 bg-transparent ${
         session
-          ? isHomePage && "relative w-full"
+          ? isHomePage && "absolute w-full"
           : isHomePage && "absolute w-full"
       } hover:bg-white`}
       ref={hoverRef}

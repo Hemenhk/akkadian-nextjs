@@ -1,7 +1,9 @@
-import Link from "next/link";
 import React from "react";
-import ShopDrawer from "./ShopDrawer";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+
+import ShopDrawer from "./ShopDrawer";
+
 
 type NavLinksProps = {
   isOpen: boolean;

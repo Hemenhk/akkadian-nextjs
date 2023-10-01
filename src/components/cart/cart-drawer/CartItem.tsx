@@ -1,10 +1,12 @@
 import React from "react";
+import Image from "next/image";
+
 import { useShopifyContext } from "@/app/context/store";
 
 import { Flex, Text } from "@chakra-ui/react";
 import { BsTrash3 } from "react-icons/bs";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import Image from "next/image";
+
 
 export default function CartItem(props) {
   const {

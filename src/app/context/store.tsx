@@ -71,14 +71,19 @@ export const ShopifyContextProvider = ({
     setCheckout(checkout);
   };
   // console.log("check the checkout", checkout.id);
+  const checkoutId = localStorage.getItem("checkout_id");
+  const completedOrder = checkout.completedAt;
 
   useEffect(() => {
-    if (!checkout.id) {
+    if (completedOrder) {
       createCheckout();
-    } else if (checkout.id) {
-      fetchCheckout(checkout.id);
     }
-  }, [checkout.id]);
+    if (!checkoutId) {
+      createCheckout();
+    } else {
+      fetchCheckout(checkoutId);
+    }
+  }, [checkoutId, completedOrder]);
 
   const addItemToCheckout = async (variantId: string, quantity: number) => {
     try {
@@ -125,14 +130,14 @@ export const ShopifyContextProvider = ({
     }
   };
 
-  const fetchAllCollections =async () => {
+  const fetchAllCollections = async () => {
     try {
-      const collection = await client.collection.fetchAll()
-      setCollection(collection)
+      const collection = await client.collection.fetchAll();
+      setCollection(collection);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <ShopifyContext.Provider

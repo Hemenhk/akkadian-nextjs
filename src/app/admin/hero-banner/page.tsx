@@ -81,10 +81,13 @@ export default function HeroPage() {
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      setIsLoading(true)
       const res = await axios.patch(
         " /api/auth/admin-dashboard/hero-banner",
         values
       );
+      setIsLoading(false)
+      router.refresh()
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -93,13 +96,17 @@ export default function HeroPage() {
 
   return (
     <div className="flex flex-col justify-center gap-8 pt-6">
-      <h1 className="tracking-wide uppercase text-xl  pl-4 pb-4 border-b">Edit Hero Banner</h1>
-      <div className="pl-4 text-gray-800 transition ease-out duration-300 hover:text-gray-600">
-        <BsFillArrowLeftCircleFill
-          size={30}
-          cursor={"pointer"}
-          onClick={goBackHandler}
-        />
+      <div className="flex flex-row justify-between border-b px-5 pb-4">
+        <div className="pl-4 text-gray-800 transition ease-out duration-300 hover:text-gray-600">
+          <BsFillArrowLeftCircleFill
+            size={30}
+            cursor={"pointer"}
+            onClick={goBackHandler}
+          />
+        </div>
+        <h1 className="tracking-wide uppercase text-base lg:text-xl">
+          Edit Hero Banner
+        </h1>
       </div>
 
       <Form {...form}>
@@ -165,7 +172,7 @@ export default function HeroPage() {
                 <FormLabel>Hero Button Background Color</FormLabel>
                 <FormControl>
                   <Input
-                    type="text"
+                    type="color"
                     placeholder="hero button background color"
                     {...field}
                   />

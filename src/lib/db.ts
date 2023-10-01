@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
 
+const DB = process.env.MONGODB_DATABASE as string;
+
 export const connectToDatabase = async () => {
-  const dbClient = await mongoose
-    .connect(
-      "mongodb+srv://hemenhiwakamal:fsY9rc65r82ARSOf@cluster0.xwlvpt0.mongodb.net/"
-    )
-    .then(() => console.log("DB successfully connected!"));
+  const dbClient = await mongoose.connect(DB);
 
   return dbClient;
 };

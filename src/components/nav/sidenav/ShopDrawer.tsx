@@ -1,11 +1,12 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useShopifyContext } from "@/app/context/store";
 
 import { BiChevronDown } from "react-icons/bi";
 
 import classes from "./styles/ShopDrawer.module.css";
-import { useShopifyContext } from "@/app/context/store";
 
 export default function ShopDrawer() {
   const [isOpen, setIsOpen] = useState(false);

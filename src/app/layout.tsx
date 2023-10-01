@@ -45,9 +45,7 @@ export default function RootLayout({ children }: Children) {
           <Providers>
             <ShopifyContextProvider>
               {isNotAdmin}
-              <div className="pt-14">
                 <TheFooter />
-              </div>
             </ShopifyContextProvider>
           </Providers>
         </NextAuthProvider>

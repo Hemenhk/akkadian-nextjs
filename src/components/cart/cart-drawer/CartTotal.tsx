@@ -1,8 +1,11 @@
 import React from "react";
+import Link from "next/link";
+
 import { useShopifyContext } from "@/app/context/store";
+
 import { Flex } from "@chakra-ui/react";
 import TheButton from "@/components/ui/TheButton";
-import Link from "next/link";
+
 
 export default function CartTotal() {
   const { checkout } = useShopifyContext();

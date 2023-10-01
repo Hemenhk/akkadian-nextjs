@@ -1,7 +1,8 @@
-
 import React from 'react'
+
 import { useShopifyContext } from '@/app/context/store'
 import { Flex } from "@chakra-ui/react";
+
 import CartItem from './CartItem';
 
 export default function CartDrawer() {

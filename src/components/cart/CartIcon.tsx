@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useRef } from "react";
+import { useShopifyContext } from "@/app/context/store";
+
 import {
   Button,
   Drawer,
@@ -14,9 +16,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { HiOutlineShoppingBag } from "react-icons/hi";
+
 import CartDrawer from "./cart-drawer/CartDrawer";
 import CartTotal from "./cart-drawer/CartTotal";
-import { useShopifyContext } from "@/app/context/store";
 
 type CartIconProps = {
   isHovered: boolean;
@@ -40,6 +42,7 @@ export default function CartIcon({ isHovered, isHomePage }: CartIconProps) {
         onClick={onOpen}
         w={"75px"}
         borderRadius={"30px"}
+        bg={"transparent"}
         cursor={"pointer"}
         bgSize={"200% 100%"}
         bgPosition={"right bottom"}

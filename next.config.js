@@ -6,8 +6,13 @@ const nextConfig = {
   },
   experimental: {
     appDir: true,
-    serverComponentsExternalPackages: ["mongoose"]
-  }
+    serverComponentsExternalPackages: ["mongoose"],
+  },
+  env: {
+    SHOPIFY_DOMAIN: process.env.SHOPIFY_DOMAIN,
+    SHOPIFY_STOREFRONT_ACCESS_TOKEN:
+      process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+  },
 };
 
 module.exports = nextConfig;

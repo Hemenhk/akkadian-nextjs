@@ -1,8 +1,9 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import { Image as IImage } from "shopify-buy";
 
+import React, { useState } from "react";
+import Image from "next/image";
+
+import { Image as IImage } from "shopify-buy";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 type ImageProps = {

@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import TheFooterMenu from "./footer-menu/TheFooterMenu";
 
 import classes from "./styles/TheFooter.module.css";
-import axios from "axios";
+
 
 export default function TheFooter() {
   const [footerBackgroundColor, setFooterBackgroundColor] = useState("");

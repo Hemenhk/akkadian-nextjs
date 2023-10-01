@@ -1,8 +1,9 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+
+import axios from "axios";
 
 import classes from "./styles/HeroBanner.module.css";
-import axios from "axios";
 
 export default function HeroBanner() {
   const [heroValues, setHeroValues] = useState({

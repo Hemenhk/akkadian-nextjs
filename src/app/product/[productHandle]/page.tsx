@@ -2,13 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 
+import { useShopifyContext } from "@/app/context/store";
+
 import ProductPrice from "@/components/single-product/price/ProductPrice";
 import ProductImage from "@/components/single-product/images/ProductImage";
 import ProductVariants from "@/components/single-product/variants/ProductVariants";
 import QuantitySelector from "@/components/single-product/quantity-selector/QuantitySelector";
 import TheAccordion from "@/components/single-product/accordion/Accordion";
 import TheButton from "@/components/ui/TheButton";
-import { useShopifyContext } from "@/app/context/store";
+
 
 type Props = {
   params: { productHandle: string };
@@ -30,6 +32,8 @@ export default function ProductPage({ params }: Props) {
     }
   }, [product]);
 
+  console.log(product)
+
   const addItemToCartHandler = () => {
     console.log("addItemToCartHandler called");
     if (selectedVariantId) {
@@ -48,7 +52,6 @@ export default function ProductPage({ params }: Props) {
   if (!product.variants) {
     return <p>No variants available for this product</p>;
   }
-  // console.log("product.variants:", product);
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center gap-10 p-[5rem] bg-[#fafafa] w-screen">
       <div className="flex  flex-col gap-10">
@@ -88,7 +91,7 @@ export default function ProductPage({ params }: Props) {
             onClick={selectedVariantId ? addItemToCartHandler : undefined}
             disabled={!product.availableForSale || !selectedVariantId}
           />
-          <p className="text-sm tracking-wide leading-6 text-center lg:text-left">
+          <p className="text-sm tracking-wide whitespace-break-spaces leading-6 text-center lg:text-left">
             {product.metafields[3]?.value}
           </p>
           <div className="flex lg:hidden">

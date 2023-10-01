@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+
+import { Collection } from "shopify-buy";
 
 import { fetchCollectionWithHandle } from "@/shopify/shopify-req";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import Link from "next/link";
-import Image from "next/image";
 import CollectionPrice from "../collection/CollectionPrice";
-import { Collection } from "shopify-buy";
+
 
 export default function FeaturedCollection({ handle }: { handle: string }) {
   const [collection, setCollection] = useState<Collection | null>(null);
