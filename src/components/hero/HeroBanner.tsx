@@ -36,10 +36,10 @@ export default function HeroBanner() {
     <div
       className={`flex flex-col justify-center pl-10 w-[60%] gap-5 ${classes.container}`}
     >
-      <h1 className="tracking-wider text-white text-2xl font-bold">
+      <h1 className="tracking-wider text-white text-2xl lg:text-3xl font-bold">
         {heroValues.heroHeading}
       </h1>
-      <p className="tracking-wider font-medium text-[#dbdbdb] ">
+      <p className="tracking-wider font-medium text-[#dbdbdb] lg:text-lg ">
         {heroValues.heroSubHeading}
       </p>
       <Link href={"/product/sea-salt-spray"}>

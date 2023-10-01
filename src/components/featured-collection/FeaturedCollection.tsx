@@ -71,7 +71,7 @@ export default function FeaturedCollection({ handle }: { handle: string }) {
 
   return (
     <div className="flex flex-col items-center gap-8">
-      <h2 className="tracking-widest text-lg">{collection?.title}</h2>
+      <h2 className="tracking-widest text-xl">{collection?.title}</h2>
       <div className="flex flex-row flex-wrap gap-3  justify-center">
         {mappedCollection}
       </div>

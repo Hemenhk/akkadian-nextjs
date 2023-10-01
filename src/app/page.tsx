@@ -23,7 +23,7 @@ export default function Home() {
   }, []);
 
   const bgImageStyle = {
-    background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${bgImage}), center/cover no-repeat`,
+    background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${bgImage}) center/cover no-repeat`,
     height: "95vh",
   };
 
@@ -33,7 +33,7 @@ export default function Home() {
         className={`flex flex-col justify-start gap-10 h-[600px] w-full `}
         style={bgImageStyle}
       >
-        <div className="relative top-[40%] pl-8">
+        <div className="relative top-[50%] lg:top-[70%] pl-8">
           <HeroBanner />
         </div>
       </div>

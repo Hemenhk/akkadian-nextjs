@@ -3,6 +3,7 @@
 import React from "react";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useHover } from "@uidotdev/usehooks";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,6 +15,7 @@ import logo from "@/assets/images/logo.png";
 
 export default function MainNav() {
   const { data: session } = useSession();
+  const [hoverRef, isHovered] = useHover<HTMLDivElement>();
   const pathname = usePathname();
   const isAdminPage = pathname === "/admin";
   const isHomePage = pathname === "/";
@@ -24,7 +26,7 @@ export default function MainNav() {
 
   const adminHeader = (
     <>
-      <SideNav />
+      <SideNav isHovered={isHovered} isHomePage={isHomePage} />
       <Link href={"/"}>
         <Image src={logo} alt="logo" width={50} height={50} />
       </Link>
@@ -34,11 +36,11 @@ export default function MainNav() {
 
   const notAdminHeader = (
     <>
-      <SideNav />
+      <SideNav isHovered={isHovered} isHomePage={isHomePage}/>
       <Link href={"/"}>
         <Image src={logo} alt="logo" width={50} height={50} />
       </Link>
-      <CartIcon />
+      <CartIcon isHovered={isHovered} isHomePage={isHomePage} />
     </>
   );
 
@@ -49,6 +51,7 @@ export default function MainNav() {
           ? isHomePage && "relative w-full"
           : isHomePage && "absolute w-full"
       } hover:bg-white`}
+      ref={hoverRef}
     >
       {isAdminPage ? adminHeader : notAdminHeader}
     </div>

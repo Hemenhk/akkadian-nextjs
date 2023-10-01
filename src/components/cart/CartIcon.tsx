@@ -18,11 +18,20 @@ import CartDrawer from "./cart-drawer/CartDrawer";
 import CartTotal from "./cart-drawer/CartTotal";
 import { useShopifyContext } from "@/app/context/store";
 
-export default function CartIcon() {
+type CartIconProps = {
+  isHovered: boolean;
+  isHomePage: boolean;
+};
+
+export default function CartIcon({ isHovered, isHomePage }: CartIconProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const { isCartOpen } = useShopifyContext();
+
+  const colorValue = isHomePage
+    ? `${isHovered ? "black" : "white"}`
+    : !isHomePage && "black";
 
   return (
     <>
@@ -34,7 +43,7 @@ export default function CartIcon() {
         cursor={"pointer"}
         bgSize={"200% 100%"}
         bgPosition={"right bottom"}
-        color={"#000"}
+        color={colorValue}
         transition={"all 0.5s ease-out"}
         _hover={{
           backgroundPosition: "left bottom",

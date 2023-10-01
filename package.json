@@ -22,6 +22,7 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "@types/shopify-buy": "^2.17.1",
+    "@uidotdev/usehooks": "^2.3.1",
     "autoprefixer": "10.4.15",
     "axios": "^1.5.0",
     "bcrypt": "^5.1.1",
