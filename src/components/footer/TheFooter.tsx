@@ -1,13 +1,31 @@
-import React from "react";
-import TheFooterAddress from "./footer-address/TheFooterAddress";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import TheFooterMenu from "./footer-menu/TheFooterMenu";
 
 import classes from "./styles/TheFooter.module.css";
+import axios from "axios";
 
 export default function TheFooter() {
+  const [footerBackgroundColor, setFooterBackgroundColor] = useState("");
+
+  useEffect(() => {
+    const fetchAnnouncement = async () => {
+      try {
+        const data = await axios.get("/api/auth/admin-dashboard/footer");
+        setFooterBackgroundColor(data.data.footerValue[0].footerBackgroundColor);
+        console.log(data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAnnouncement();
+  }, []);
+
   return (
     <div
-      className={`flex flex-col gap-8 h-80 text-gray-200 bg-gray-700 ${classes.container}`}
+      className={`flex flex-col gap-8 h-80 text-gray-200  ${classes.container}`}
+      style={{ background: footerBackgroundColor }}
     >
       <div className="flex flex-row pl-5 pt-14 gap-8 h-3/4">
         <div>

@@ -23,22 +23,19 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { Oval } from "react-loader-spinner";
 
 const formSchema = z.object({
-  announcementText: z.string(),
-  announcementColor: z.string(),
+  footerBackgroundColor: z.string(),
 });
 
-export default function AnnouncementPage() {
+export default function FooterPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [announcementColor, setAnnouncementColor] = useState("");
-  const [announcementText, setAnnouncementText] = useState("");
+  const [footerBackgroundColor, setfooterBackgroundColor] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("/api/auth/admin-dashboard/announcement");
-        setAnnouncementColor(res.data.announcementValue[0].announcementColor);
-        setAnnouncementText(res.data.announcementValue[0].announcementText);
+        const res = await axios.get("/api/auth/admin-dashboard/footer");
+        setfooterBackgroundColor(res.data.footerValue[0].footerBackgroundColor);
       } catch (error) {
         console.log(error);
       }
@@ -49,12 +46,10 @@ export default function AnnouncementPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      announcementColor: "",
-      announcementText: "",
+      footerBackgroundColor: "",
     },
     values: {
-      announcementColor: announcementColor,
-      announcementText: announcementText,
+      footerBackgroundColor: footerBackgroundColor,
     },
   });
 
@@ -66,7 +61,7 @@ export default function AnnouncementPage() {
     try {
       setIsLoading(true);
       const res = await axios.patch(
-        " /api/auth/admin-dashboard/announcement",
+        "/api/auth/admin-dashboard/footer",
         values
       );
       setIsLoading(false);
@@ -85,7 +80,7 @@ export default function AnnouncementPage() {
           onClick={goBackHandler}
         />
       </div>
-      <h1 className="tracking-wide pl-4">Edit Announcement Bar</h1>
+      <h1 className="tracking-wide pl-4">Edit Footer</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
@@ -93,32 +88,14 @@ export default function AnnouncementPage() {
         >
           <FormField
             control={form.control}
-            name="announcementText"
+            name="footerBackgroundColor"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Announcement Text</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="announcement text"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="announcementColor"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Announcement Background Color</FormLabel>
+                <FormLabel>Footer Background Color</FormLabel>
                 <FormControl>
                   <Input
                     type="color"
-                    placeholder="announcement color"
+                    placeholder="footer background color"
                     {...field}
                   />
                 </FormControl>
@@ -127,6 +104,7 @@ export default function AnnouncementPage() {
               </FormItem>
             )}
           />
+
           <Button
             className="w-full rounded-sm px-16 uppercase tracking-widest"
             type="submit"

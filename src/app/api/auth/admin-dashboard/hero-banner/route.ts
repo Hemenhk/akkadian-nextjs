@@ -10,7 +10,7 @@ export async function PATCH(req: NextRequest) {
 
     const reqBody = await req.json();
 
-    const idString = "65187cf0f9121cfb00e1a491";
+    const idString = "65194f3b758aba7d2d57b3d1";
 
     const heroHeading: string = reqBody.heroHeading;
     const heroSubHeading: string = reqBody.heroSubHeading;

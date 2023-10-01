@@ -9,7 +9,7 @@ export async function PATCH(request: NextRequest) {
 
     const heroImage = reqBody.imageUrl;
 
-    const idString = "65187cf0f9121cfb00e1a491";
+    const idString = "65194f3b758aba7d2d57b3d1";
 
     const heroImageValue = await AdminDashboard.updateOne(
       { _id: idString },

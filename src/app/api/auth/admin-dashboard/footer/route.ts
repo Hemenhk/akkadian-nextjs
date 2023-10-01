@@ -9,22 +9,20 @@ export async function PATCH(req: NextRequest) {
     const reqBody = await req.json();
 
     const idString = "65194f3b758aba7d2d57b3d1";
-    const announcementText: string = reqBody.announcementText;
-    const announcementColor: string = reqBody.announcementColor;
+    const footerBackgroundColor: string = reqBody.footerBackgroundColor;
 
-    console.log(announcementText);
-    console.log(announcementColor);
+    console.log(footerBackgroundColor);
 
     const id = await AdminDashboard.findOne({ _id: idString });
 
-    const announcementValues = await AdminDashboard.updateOne(
+    const footerValues = await AdminDashboard.updateOne(
       {
         _id: id,
       },
       {
         $set: {
-          announcementColor: announcementColor,
-          announcementText: announcementText,
+          footerBackgroundColor: footerBackgroundColor,
+          
         },
       }
     );
@@ -33,7 +31,7 @@ export async function PATCH(req: NextRequest) {
       status: 200,
       success: true,
       data: {
-        announcement: announcementValues,
+        footer: footerValues,
       },
     });
   } catch (error: any) {
@@ -50,16 +48,16 @@ export async function PATCH(req: NextRequest) {
 export async function GET() {
   try {
     await connectToDatabase();
-    const announcementValue = await AdminDashboard.find();
+    const footerValue = await AdminDashboard.find();
 
-    if (!announcementValue) {
+    if (!footerValue) {
       throw new Error("Document not found");
     }
 
     return NextResponse.json({
       status: 200,
       success: true,
-      announcementValue,
+      footerValue,
     });
   } catch (error: any) {
     return NextResponse.json({
