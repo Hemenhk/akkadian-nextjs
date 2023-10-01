@@ -12,9 +12,9 @@ export default function AdminNav() {
 
   return (
     <div className="w-[80%]">
-      <ul className="flex flex-col gap-4 relative top-96 w-full">
+      <ul className="flex flex-col gap-2 relative w-full">
         {adminNavLinks.map((link) => (
-          <li key={link.href} className="flex items-center text-left p-2 w-full rounded-sm transition duration-300 ease-out hover:bg-gray-100">
+          <li key={link.href} className="flex items-center text-left uppercase p-3 w-full rounded-sm transition duration-300 ease-out hover:bg-gray-100">
             <Link href={link.href}>{link.title}</Link>
           </li>
         ))}

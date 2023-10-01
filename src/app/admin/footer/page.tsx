@@ -60,10 +60,7 @@ export default function FooterPage() {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsLoading(true);
-      const res = await axios.patch(
-        "/api/auth/admin-dashboard/footer",
-        values
-      );
+      const res = await axios.patch("/api/auth/admin-dashboard/footer", values);
       setIsLoading(false);
       console.log(res);
     } catch (error) {
@@ -73,6 +70,7 @@ export default function FooterPage() {
 
   return (
     <div className="flex flex-col justify-center gap-8 pt-6">
+      <h1 className="tracking-wide uppercase text-xl border-b pb-4 pl-4">Edit Footer</h1>
       <div className="pl-4 text-gray-800 transition ease-out duration-300 hover:text-gray-600">
         <BsFillArrowLeftCircleFill
           size={30}
@@ -80,11 +78,11 @@ export default function FooterPage() {
           onClick={goBackHandler}
         />
       </div>
-      <h1 className="tracking-wide pl-4">Edit Footer</h1>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-6 w-full px-4"
+          className="space-y-6 w-full lg:w-[80%] px-5"
         >
           <FormField
             control={form.control}

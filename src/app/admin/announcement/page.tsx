@@ -78,6 +78,7 @@ export default function AnnouncementPage() {
 
   return (
     <div className="flex flex-col justify-center gap-8 pt-6">
+      <h1 className="tracking-wide uppercase text-xl pb-4 pl-4 border-b">Edit Announcement Bar</h1>
       <div className="pl-4 text-gray-800 transition ease-out duration-300 hover:text-gray-600">
         <BsFillArrowLeftCircleFill
           size={30}
@@ -85,11 +86,11 @@ export default function AnnouncementPage() {
           onClick={goBackHandler}
         />
       </div>
-      <h1 className="tracking-wide pl-4">Edit Announcement Bar</h1>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-6 w-full px-4"
+          className="space-y-6 w-full lg:w-[80%] px-5"
         >
           <FormField
             control={form.control}

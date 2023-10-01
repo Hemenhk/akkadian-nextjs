@@ -50,6 +50,7 @@ export default function UploadForm() {
       onSubmit={onSubmit}
       className="flex flex-col justify-center gap-8 pt-6"
     >
+      <h1 className="tracking-wide uppercase text-xl border-b pb-4 pl-4">Edit Hero Image</h1>
       <div className="pl-4 text-gray-800 transition ease-out duration-300 hover:text-gray-600">
         <BsFillArrowLeftCircleFill
           size={30}
@@ -57,7 +58,7 @@ export default function UploadForm() {
           onClick={goBackHandler}
         />
       </div>
-      <h1 className="tracking-wide pl-4">Edit Hero Image</h1>
+
       <div className="flex flex-col justify-center pl-4">
         <input
           type="file"
@@ -71,7 +72,13 @@ export default function UploadForm() {
         >
           {isLoading ? (
             <div className="flex flex-row items-center justify-center gap-2">
-              <Oval height={20} width={20} color="#e5e7eb" secondaryColor="#e5e7eb" /> Saving
+              <Oval
+                height={20}
+                width={20}
+                color="#e5e7eb"
+                secondaryColor="#e5e7eb"
+              />{" "}
+              Saving
             </div>
           ) : (
             <p>Save</p>
