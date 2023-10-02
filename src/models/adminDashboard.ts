@@ -38,11 +38,12 @@ const adminDashboard = new mongoose.Schema({
     type: String,
   },
   footerBackgroundColor: {
-    type: String
+    type: String,
   },
   logo: {
-    type: String
-  }
+    type: String,
+  },
+  productId: {},
 });
 
 const AdminDashboard: Model<AdminDashboardDocument> =

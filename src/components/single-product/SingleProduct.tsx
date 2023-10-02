@@ -10,6 +10,7 @@ import ProductVariants from "@/components/single-product/variants/ProductVariant
 import QuantitySelector from "@/components/single-product/quantity-selector/QuantitySelector";
 import TheAccordion from "@/components/single-product/accordion/Accordion";
 import TheButton from "@/components/ui/TheButton";
+import ReviewForm from "./review/ReviewForm";
 
 type Props = {
   params: { productHandle: string };
@@ -96,6 +97,7 @@ export default function SingleProduct({ params }: Props) {
           <div className="flex lg:hidden">
             <TheAccordion metafields={product.metafields} />
           </div>
+          <ReviewForm productHandle={params.productHandle} />
         </div>
       </div>
     </div>

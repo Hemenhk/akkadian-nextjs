@@ -1,4 +1,3 @@
-import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 import AdminDashboard from "@/models/adminDashboard";

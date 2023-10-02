@@ -10,6 +10,7 @@ import TheAnnouncement from "@/components/announcement/TheAnnouncement";
 import TheFooter from "@/components/footer/TheFooter";
 
 import "./globals.css";
+import MUIProvider from "./context/mui";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-roboto-mono" });
 
@@ -42,12 +43,14 @@ export default function RootLayout({ children }: Children) {
     <html lang="en">
       <body className={`${inter.variable} ${noto_sans.variable}`}>
         <NextAuthProvider>
-          <Providers>
-            <ShopifyContextProvider>
-              {isNotAdmin}
+          <MUIProvider>
+            <Providers>
+              <ShopifyContextProvider>
+                {isNotAdmin}
                 <TheFooter />
-            </ShopifyContextProvider>
-          </Providers>
+              </ShopifyContextProvider>
+            </Providers>
+          </MUIProvider>
         </NextAuthProvider>
       </body>
     </html>

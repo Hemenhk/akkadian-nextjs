@@ -124,7 +124,7 @@ export const ShopifyContextProvider = ({
     try {
       const product = await client.product.fetchByHandle(handle);
       const metafields = await fetchProductMetafields(handle);
-      // console.log("Product is fetched", product);
+      console.log("Product is fetched", product);
       setProduct({ ...product, metafields });
     } catch (error) {
       console.log(error);
