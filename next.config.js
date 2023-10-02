@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["cdn.shopify.com"],
+    formats: ["image/webp"]
   },
   experimental: {
     appDir: true,
