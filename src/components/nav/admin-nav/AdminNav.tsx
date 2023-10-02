@@ -5,6 +5,7 @@ import Link from "next/link";
 export default function AdminNav() {
   const adminNavLinks = [
     { title: "Home", href: "/" },
+    { title: "Logo", href: "/admin/logo"},
     { title: "Announcement", href: "/admin/announcement" },
     { title: "Hero Banner", href: "/admin/hero-banner" },
     { title: "Hero Image", href: "/admin/hero-image" },

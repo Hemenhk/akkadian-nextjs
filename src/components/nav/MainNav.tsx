@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useHover } from "@uidotdev/usehooks";
@@ -10,10 +10,12 @@ import Link from "next/link";
 import SideNav from "./sidenav/SideNav";
 import CartIcon from "../cart/CartIcon";
 import TheButton from "../ui/TheButton";
+import axios from "axios";
 
-import logo from "../../assets/images/logo.png";
 
 export default function MainNav() {
+  const [logo, setLogo] = useState("");
+
   const { data: session } = useSession();
   const [hoverRef, isHovered] = useHover<HTMLDivElement>();
   const pathname = usePathname();
@@ -23,6 +25,24 @@ export default function MainNav() {
   const signOutHandler = () => {
     signOut();
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const cachedLogoValue = localStorage.getItem("logo");
+        if (cachedLogoValue) {
+          setLogo(JSON.parse(cachedLogoValue));
+        }
+        const res = await axios.get("/api/auth/admin-dashboard/hero-banner");
+        const data = res.data.heroValues[0];
+        localStorage.setItem("logo", JSON.stringify(data));
+        setLogo(data.logo);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const adminHeader = (
     <>

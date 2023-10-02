@@ -7,20 +7,20 @@ export async function PATCH(request: NextRequest) {
     await connectToDatabase();
     const reqBody = await request.json();
 
-    const heroImage = reqBody.imageUrl;
+    const logoImage = reqBody.logoUrl;
 
     const idString = "651aa8d46429b3029ca2c537";
 
-    const heroImageValue = await AdminDashboard.updateOne(
+    const logoValue = await AdminDashboard.updateOne(
       { _id: idString },
       {
         $set: {
-          heroImage: heroImage,
+            logo: logoImage,
         },
       }
     );
 
-    return NextResponse.json({ success: true, heroImageValue });
+    return NextResponse.json({ success: true, logoValue });
   } catch (error) {
     console.log(error);
   }

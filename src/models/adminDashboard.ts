@@ -39,6 +39,9 @@ const adminDashboard = new mongoose.Schema({
   },
   footerBackgroundColor: {
     type: String
+  },
+  logo: {
+    type: String
   }
 });
 
