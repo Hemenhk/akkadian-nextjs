@@ -16,8 +16,8 @@ type TShopifyContext = {
   collection: Collection[];
   checkout: Checkout;
   isCartOpen: boolean;
-  setProduct: Dispatch<SetStateAction<Product | null>>;
-  setCheckout: Dispatch<SetStateAction<Checkout | {}>>;
+  setProduct: Dispatch<SetStateAction<Product>>
+  setCheckout: Dispatch<SetStateAction<Checkout>>
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
   createCheckout: () => Promise<void>;
   fetchCheckout: (checkoutId: string) => Promise<void>;
@@ -25,13 +25,13 @@ type TShopifyContext = {
   fetchAllCollections: () => Promise<void>;
   addItemToCheckout: (variantId: string, quantity: number) => Promise<void>;
   updateLineItem: (lineItemId: string, quantity: number) => Promise<void>;
-  removeLineItems: (lineItemsToRemove: string) => Promise<void>;
+  removeLineItems: (lineItemsToRemove: string[]) => Promise<void>;
 };
 
 const ShopifyContext = createContext<TShopifyContext>({
   product: null,
   collection: [],
-  checkout: {},
+  checkout: null,
   isCartOpen: false,
   setProduct: () => {},
   setCheckout: () => {},
@@ -42,7 +42,7 @@ const ShopifyContext = createContext<TShopifyContext>({
   fetchAllCollections: async () => {},
   addItemToCheckout: async (variantId: string, quantity: number) => {},
   updateLineItem: async (lineItemId: string, quantity: number) => {},
-  removeLineItems: async (lineItemsToRemove: string) => {},
+  removeLineItems: async (lineItemsToRemove: string[]) => {},
 });
 
 export const ShopifyContextProvider = ({
@@ -52,7 +52,7 @@ export const ShopifyContextProvider = ({
 }) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [collection, setCollection] = useState<Collection[] | []>([]);
-  const [checkout, setCheckout] = useState({});
+  const [checkout, setCheckout] = useState<Checkout | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const createCheckout = async () => {
@@ -72,7 +72,7 @@ export const ShopifyContextProvider = ({
   };
   // console.log("check the checkout", checkout.id);
   const checkoutId = localStorage.getItem("checkout_id");
-  const completedOrder = checkout.completedAt;
+  const completedOrder = checkout?.completedAt;
 
   useEffect(() => {
     if (completedOrder) {
@@ -111,7 +111,7 @@ export const ShopifyContextProvider = ({
     setCheckout(newCheckout);
   };
 
-  const removeLineItems = async (lineItemsToRemove: string) => {
+  const removeLineItems = async (lineItemsToRemove: string[]) => {
     const newCheckout = await client.checkout.removeLineItems(
       checkout?.id,
       lineItemsToRemove
@@ -146,6 +146,8 @@ export const ShopifyContextProvider = ({
         collection,
         checkout,
         isCartOpen,
+        createCheckout,
+        fetchCheckout,
         setCheckout,
         setProduct,
         setIsCartOpen,

@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const formSchema = z.object({
@@ -35,6 +35,10 @@ const formSchema = z.object({
 export default function ChangePassword() {
   const { data: session } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!session) router.push("/");
+  }, [session, router]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

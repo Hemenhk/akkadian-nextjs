@@ -12,6 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default function AdminDashboardLayout({ children }: AdminProps) {
+
+ 
   return (
     <section className="flex flex-row">
       <div className="w-1/3">{children}</div>

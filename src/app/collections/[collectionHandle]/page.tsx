@@ -5,14 +5,26 @@ import Image from "next/image";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 import { fetchCollectionWithHandle } from "@/shopify/shopify-req";
-
 import CollectionPrice from "@/components/collection/CollectionPrice";
+import { Metadata } from "next";
 
-export default async function CollectionPage({
-  params,
-}: {
+type CollectionProps = {
   params: { collectionHandle: string };
-}) {
+};
+
+export async function generateMetadata({
+  params,
+}: CollectionProps): Promise<Metadata> {
+  const collectionHandle = params.collectionHandle;
+
+  const collection = await fetchCollectionWithHandle(collectionHandle);
+
+  return {
+    title: collection?.title,
+  };
+}
+
+export default async function CollectionPage({ params }: CollectionProps) {
   const collection = await fetchCollectionWithHandle(params.collectionHandle);
   console.log("collection", collection);
   if (!collection?.title) {
@@ -30,7 +42,7 @@ export default async function CollectionPage({
           }`}
         >
           {product.variants[0].compareAtPrice && (
-            <p className="uppercase text-sm tracking-widest text-slate-500">
+            <p className="uppercase text-sm tracking-widest text-slate-500 pb-4">
               on sale
             </p>
           )}
@@ -52,7 +64,7 @@ export default async function CollectionPage({
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
           <h2 className="tracking-wider">{product.title}</h2>
-           <CollectionPrice
+          <CollectionPrice
             price={product?.variants[0].price}
             comparePrice={product?.variants[0].compareAtPrice}
           />

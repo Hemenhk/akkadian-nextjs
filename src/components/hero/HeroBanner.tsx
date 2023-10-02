@@ -17,14 +17,20 @@ export default function HeroBanner() {
   useEffect(() => {
     const fetchHeroValues = async () => {
       try {
-        const data = await axios.get("/api/auth/admin-dashboard/hero-banner");
-        console.log("Hero", data);
+        const cachedHeroValues = localStorage.getItem("heroValues");
+        if (cachedHeroValues) {
+          setHeroValues(JSON.parse(cachedHeroValues));
+        }
+        const res = await axios.get("/api/auth/admin-dashboard/hero-banner");
+        console.log("Hero", res);
+        const data = res.data.heroValues[0];
+        localStorage.setItem("heroValues", JSON.stringify(data));
         setHeroValues({
-          heroImage: data.data.heroValues[0].heroImage,
-          heroHeading: data.data.heroValues[0].heroHeading,
-          heroSubHeading: data.data.heroValues[0].heroSubHeading,
-          heroButtonText: data.data.heroValues[0].heroButtonText,
-          heroButtonColor: data.data.heroValues[0].heroButtonColor,
+          heroImage: data?.heroImage,
+          heroHeading: data?.heroHeading,
+          heroSubHeading: data?.heroSubHeading,
+          heroButtonText: data?.heroButtonText,
+          heroButtonColor: data?.heroButtonColor,
         });
       } catch (error) {
         console.log(error);

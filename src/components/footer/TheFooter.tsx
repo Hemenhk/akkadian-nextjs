@@ -7,16 +7,22 @@ import TheFooterMenu from "./footer-menu/TheFooterMenu";
 
 import classes from "./styles/TheFooter.module.css";
 
-
 export default function TheFooter() {
   const [footerBackgroundColor, setFooterBackgroundColor] = useState("");
 
   useEffect(() => {
     const fetchAnnouncement = async () => {
       try {
-        const data = await axios.get("/api/auth/admin-dashboard/footer");
-        setFooterBackgroundColor(data.data.footerValue[0].footerBackgroundColor);
-        console.log(data)
+        const cachedFooterValues = localStorage.getItem("footerValues");
+        if (cachedFooterValues) {
+          setFooterBackgroundColor(JSON.parse(cachedFooterValues));
+        }
+        const res = await axios.get("/api/auth/admin-dashboard/footer");
+        const data = res.data.footerValue[0];
+        localStorage.setItem("footerValues", JSON.stringify(data));
+        console.log(data);
+        setFooterBackgroundColor(data.footerBackgroundColor);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }

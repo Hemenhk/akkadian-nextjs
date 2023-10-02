@@ -3,10 +3,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import HeroBanner from "@/components/hero/HeroBanner";
-import FeaturedCollection from "@/components/featured-collection/FeaturedCollection";
+// import HeroBanner from "@/components/hero/HeroBanner";
+// import FeaturedCollection from "@/components/featured-collection/FeaturedCollection";
+import dynamic from "next/dynamic";
 
-
+const HeroBanner = dynamic(() => import("@/components/hero/HeroBanner"), {
+  ssr: false,
+});
+const FeaturedCollection = dynamic(
+  () => import("@/components/featured-collection/FeaturedCollection"),
+  { ssr: false }
+);
 
 export default function Home() {
   const [bgImage, setBgImage] = useState("");
@@ -14,8 +21,14 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const cachedHeroValue = localStorage.getItem("heroImage");
+        if (cachedHeroValue) {
+          setBgImage(JSON.parse(cachedHeroValue));
+        }
         const res = await axios.get("/api/auth/admin-dashboard/hero-banner");
-        setBgImage(res.data.heroValues[0].heroImage);
+        const data = res.data.heroValues[0];
+        localStorage.setItem("heroImage", JSON.stringify(data));
+        setBgImage(data.heroImage);
       } catch (error) {
         console.log(error);
       }

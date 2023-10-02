@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import ShopDrawer from "./ShopDrawer";
 
-
 type NavLinksProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -32,11 +31,11 @@ export default function NavLinks({ onClose, isOpen }: NavLinksProps) {
 
   const isNotAuthenticated = (
     <>
-      <li className="font-normal text-base uppercase ml-4 pb-4 border-b w-3/4 border-[#dedede]">
+      {/* <li className="font-normal text-base uppercase ml-4 pb-4 border-b w-3/4 border-[#dedede]">
         <Link href={"/signup"} onClick={closeDrawerHandler}>
           Sign up
         </Link>
-      </li>
+      </li> */}
       <li className="font-normal text-base uppercase ml-4 pb-4 border-b w-3/4 border-[#dedede]">
         <Link href={"/signin"} onClick={closeDrawerHandler}>
           Sign in
@@ -54,7 +53,7 @@ export default function NavLinks({ onClose, isOpen }: NavLinksProps) {
           </Link>
         </li>
         <li className="font-normal text-base uppercase ml-4 pb-4 border-b w-3/4 border-[#dedede]">
-          <ShopDrawer />
+          <ShopDrawer onClose={onClose} isDrawerOpen={isOpen} />
         </li>
         <li className="font-normal text-base uppercase ml-4 pb-4 border-b w-3/4 border-[#dedede]">
           <Link href={"/faq"} onClick={closeDrawerHandler}>

@@ -1,25 +1,13 @@
 import React from "react";
-
-type ComparePrice = {
-    amount: string,
-    currencyCode: string
-}
-
-type StandardPrice = {
-    amount: string,
-    currencyCode: string
-}
-
-
-type CollectionPriceProps = {
-  comparePrice: ComparePrice;
-  price: StandardPrice;
-};
+import { MoneyV2 } from "shopify-buy";
 
 export default function CollectionPrice({
   comparePrice,
   price,
-}: CollectionPriceProps) {
+}: {
+  comparePrice: MoneyV2;
+  price: MoneyV2;
+}) {
   return (
     <div>
       {comparePrice ? (

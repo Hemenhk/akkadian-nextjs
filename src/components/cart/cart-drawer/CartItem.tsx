@@ -7,7 +7,6 @@ import { Flex, Text } from "@chakra-ui/react";
 import { BsTrash3 } from "react-icons/bs";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 
-
 export default function CartItem(props) {
   const {
     id,
@@ -70,7 +69,6 @@ export default function CartItem(props) {
               whiteSpace={"nowrap"}
               overflow={"hidden"}
               textOverflow={"ellipsis"}
-              s
             >
               {variant.title}
             </Text>
