@@ -11,7 +11,7 @@ import SideNav from "./sidenav/SideNav";
 import CartIcon from "../cart/CartIcon";
 import TheButton from "../ui/TheButton";
 
-import logo from "@/assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 
 export default function MainNav() {
   const { data: session } = useSession();
