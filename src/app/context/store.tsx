@@ -16,8 +16,8 @@ type TShopifyContext = {
   collection: Collection[];
   checkout: Checkout;
   isCartOpen: boolean;
-  setProduct: Dispatch<SetStateAction<Product>>
-  setCheckout: Dispatch<SetStateAction<Checkout>>
+  setProduct: Dispatch<SetStateAction<Product>>;
+  setCheckout: Dispatch<SetStateAction<Checkout>>;
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
   createCheckout: () => Promise<void>;
   fetchCheckout: (checkoutId: string) => Promise<void>;
@@ -71,10 +71,11 @@ export const ShopifyContextProvider = ({
     setCheckout(checkout);
   };
   // console.log("check the checkout", checkout.id);
-  const checkoutId = localStorage.getItem("checkout_id");
-  const completedOrder = checkout?.completedAt;
 
   useEffect(() => {
+    const checkoutId = localStorage.getItem("checkout_id");
+    const completedOrder = checkout?.completedAt;
+
     if (completedOrder) {
       createCheckout();
     }
@@ -83,7 +84,7 @@ export const ShopifyContextProvider = ({
     } else {
       fetchCheckout(checkoutId);
     }
-  }, [checkoutId, completedOrder]);
+  }, [checkout?.completedAt]);
 
   const addItemToCheckout = async (variantId: string, quantity: number) => {
     try {
