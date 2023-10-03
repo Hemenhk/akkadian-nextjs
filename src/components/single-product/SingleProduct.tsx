@@ -32,7 +32,7 @@ export default function SingleProduct({ params }: Props) {
     }
   }, [product]);
 
-  console.log(product);
+  // console.log(product);
 
   const addItemToCartHandler = () => {
     console.log("addItemToCartHandler called");
@@ -61,7 +61,10 @@ export default function SingleProduct({ params }: Props) {
             available={product?.availableForSale}
           />
           <div className="mt-[100px] hidden lg:flex">
-            <TheAccordion metafields={product.metafields} />
+            <TheAccordion
+              productHandle={params.productHandle}
+              metafields={product.metafields}
+            />
           </div>
         </div>
       </div>
@@ -78,7 +81,6 @@ export default function SingleProduct({ params }: Props) {
             selectedVariantId={selectedVariantId}
             onVariantSelect={(variantId: any) => {
               setSelectedVariantId(variantId);
-              console.log("hello", variantId);
             }}
           />
         </div>
@@ -95,9 +97,11 @@ export default function SingleProduct({ params }: Props) {
             {product.metafields[3]?.value}
           </p>
           <div className="flex lg:hidden">
-            <TheAccordion metafields={product.metafields} />
+            <TheAccordion
+              productHandle={params.productHandle}
+              metafields={product.metafields}
+            />
           </div>
-          <ReviewForm productHandle={params.productHandle} />
         </div>
       </div>
     </div>

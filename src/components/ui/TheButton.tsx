@@ -8,11 +8,13 @@ type ButtonProps = {
   height?: string;
   width?: string;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 };
 export default function TheButton({
   label,
   onClick,
   height,
+  type,
   width,
   disabled,
 }: ButtonProps) {
@@ -22,6 +24,7 @@ export default function TheButton({
         disabled ? "opacity-20" : "opacity-100"
       }`}
       disabled={disabled}
+      type={type}
       onClick={onClick}
     >
       {label}

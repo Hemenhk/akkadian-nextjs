@@ -20,9 +20,9 @@ export default function TheFooter() {
         const res = await axios.get("/api/auth/admin-dashboard/footer");
         const data = res.data.footerValue[0];
         localStorage.setItem("footerValues", JSON.stringify(data));
-        console.log(data);
+        // console.log(data);
         setFooterBackgroundColor(data.footerBackgroundColor);
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.log(error);
       }
