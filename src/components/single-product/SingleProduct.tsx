@@ -87,7 +87,7 @@ export default function SingleProduct({ params }: Props) {
         <div>
           <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
         </div>
-        <div className="flex flex-col justify-center items-center gap-[3rem] w-[400px]">
+        <div className="flex flex-col justify-center items-center gap-[3rem] w-[300px] lg:w-[400px]">
           <TheButton
             label={product.availableForSale ? "Add to cart" : "Sold out"}
             onClick={selectedVariantId ? addItemToCartHandler : undefined}
@@ -96,7 +96,7 @@ export default function SingleProduct({ params }: Props) {
           <p className="text-sm tracking-wide whitespace-break-spaces leading-6 text-center lg:text-left">
             {product.metafields[3]?.value}
           </p>
-          <div className="flex lg:hidden">
+          <div className="flex w-[300px] lg:hidden">
             <TheAccordion
               productHandle={params.productHandle}
               metafields={product.metafields}
