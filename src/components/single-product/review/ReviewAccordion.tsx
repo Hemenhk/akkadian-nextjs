@@ -44,6 +44,8 @@ export default function ReviewAccordion({
     fetchReviews();
   }, [itemHandle]);
 
+  console.log("revies",reviews)
+
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);

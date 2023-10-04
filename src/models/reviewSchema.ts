@@ -6,6 +6,10 @@ export interface ReviewDocument extends Document {
   rating: number;
 }
 
+interface ProductReviewModel extends Model<ReviewDocument> {
+  calculateReviewStats(productHandle: string): Promise<any>; // Adjust the return type as needed
+}
+
 const reviewSchema = new mongoose.Schema(
   {
     productHandle: {
@@ -61,8 +65,35 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-const ProductReview: Model<ReviewDocument> =
-  mongoose.models.ProductReview ||
-  mongoose.model<ReviewDocument>("ProductReview", reviewSchema);
+reviewSchema.statics.calculateReviewStats = async function (
+  productHandle: string
+) {
+  const stats = await this.aggregate([
+    {
+      $match: { productHandle: productHandle },
+    },
+    {
+      $group: {
+        _id: "$productHandle",
+        totalReviews: { $sum: 1 },
+        averageRating: { $avg: "$rating" },
+      },
+    },
+  ]);
+
+  if (stats.length > 0) {
+    return stats[0];
+  } else {
+    return {
+      totalReviews: 0,
+      averageRating: 0,
+    };
+  }
+};
+const ProductReview: ProductReviewModel = (mongoose.models.ProductReview ||
+  mongoose.model<ReviewDocument>(
+    "ProductReview",
+    reviewSchema
+  )) as ProductReviewModel;
 
 export default ProductReview;

@@ -11,6 +11,7 @@ import QuantitySelector from "@/components/single-product/quantity-selector/Quan
 import TheAccordion from "@/components/single-product/accordion/Accordion";
 import TheButton from "@/components/ui/TheButton";
 import ReviewForm from "./review/ReviewForm";
+import AverageRating from "./review/AverageRating";
 
 type Props = {
   params: { productHandle: string };
@@ -69,9 +70,10 @@ export default function SingleProduct({ params }: Props) {
         </div>
       </div>
       <div className="flex flex-col relative items-center lg:items-start lg:left-[50px] lg:w-[400px] gap-10">
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-start gap-5">
           <p className="text-xl tracking-wide uppercase">{product?.title}</p>
-          <div className="flex items-center justify-start gap-5 border-b pt-10 pb-5">
+          <AverageRating itemHandle={params.productHandle} />
+          <div className="flex items-center justify-start gap-5 w-full border-b pb-5">
             <ProductPrice product={product} />
           </div>
         </div>
