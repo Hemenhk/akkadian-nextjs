@@ -8,16 +8,17 @@ export async function PATCH(req: NextRequest) {
 
     const reqBody = await req.json();
 
-    const idString = "651aa8d46429b3029ca2c537";
+    
     const footerBackgroundColor: string = reqBody.footerBackgroundColor;
 
     console.log(footerBackgroundColor);
 
-    const id = await AdminDashboard.findOne({ _id: idString });
+    const { _id } = await AdminDashboard.findOne();
+
 
     const footerValues = await AdminDashboard.updateOne(
       {
-        _id: id,
+        _id,
       },
       {
         $set: {

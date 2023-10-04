@@ -76,22 +76,19 @@ export async function GET(req: NextRequest) {
   }
 }
 
-
-export async function DELETE(req: NextApiRequest) {
+export async function DELETE(req: NextRequest) {
   try {
     await connectToDatabase();
 
-    const id = req.query.id
-    // Extract the review ID from the request parameters
-
-    // Use Mongoose to find and delete the review by its _id field
-    const deletedReview = await ProductReview.findByIdAndRemove(id);
+    const { id } = await req.json();
+    console.log("Received id:", id);
+    const deletedReview = await ProductReview.findByIdAndDelete(id);
 
     if (!deletedReview) {
       return NextResponse.json({
         status: 404,
         success: false,
-        error: 'Review not found',
+        error: "Review not found",
       });
     }
 
@@ -99,7 +96,7 @@ export async function DELETE(req: NextApiRequest) {
       status: 200,
       success: true,
       data: {
-        message: 'Review deleted successfully',
+        message: "Review deleted successfully",
       },
     });
   } catch (error: any) {
@@ -110,4 +107,3 @@ export async function DELETE(req: NextApiRequest) {
     });
   }
 }
-

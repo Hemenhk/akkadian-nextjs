@@ -9,10 +9,11 @@ export async function PATCH(request: NextRequest) {
 
     const heroImage = reqBody.imageUrl;
 
-    const idString = "651aa8d46429b3029ca2c537";
+    const { _id } = await AdminDashboard.findOne();
+    
 
     const heroImageValue = await AdminDashboard.updateOne(
-      { _id: idString },
+      { _id: _id },
       {
         $set: {
           heroImage: heroImage,

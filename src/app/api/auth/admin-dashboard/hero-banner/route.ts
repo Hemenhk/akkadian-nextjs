@@ -9,18 +9,19 @@ export async function PATCH(req: NextRequest) {
 
     const reqBody = await req.json();
 
-    const idString = "651aa8d46429b3029ca2c537";
+    
 
     const heroHeading: string = reqBody.heroHeading;
     const heroSubHeading: string = reqBody.heroSubHeading;
     const heroButtonText: string = reqBody.heroButtonText;
     const heroButtonColor: string = reqBody.heroButtonColor;
 
-    const id = await AdminDashboard.findOne({ _id: idString });
+    const { _id } = await AdminDashboard.findOne();
+
 
     const heroValues = await AdminDashboard.updateOne(
       {
-        _id: id,
+        _id,
       },
       {
         $set: {

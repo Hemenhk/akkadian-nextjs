@@ -9,10 +9,11 @@ export async function PATCH(request: NextRequest) {
 
     const logoImage = reqBody.logoUrl;
 
-    const idString = "651aa8d46429b3029ca2c537";
+    const { _id } = await AdminDashboard.findOne();
+    
 
     const logoValue = await AdminDashboard.updateOne(
-      { _id: idString },
+      { _id: _id },
       {
         $set: {
             logo: logoImage,
