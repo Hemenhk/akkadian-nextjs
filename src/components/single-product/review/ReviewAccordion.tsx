@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Rating } from "@mui/material";
+import  Rating  from "@mui/material/Rating";
 import axios from "axios";
 import TheButton from "@/components/ui/TheButton";
 

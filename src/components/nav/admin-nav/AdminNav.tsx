@@ -10,6 +10,7 @@ export default function AdminNav() {
     { title: "Hero Banner", href: "/admin/hero-banner" },
     { title: "Hero Image", href: "/admin/hero-image" },
     { title: "Footer", href: "/admin/footer" },
+    { title: "Reviews", href: "/admin/reviews" },
   ];
 
   return (
