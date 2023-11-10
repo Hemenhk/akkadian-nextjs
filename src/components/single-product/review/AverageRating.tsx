@@ -1,44 +1,28 @@
 "use client";
 
+import { fetchReviewStats } from "@/axios-instances/axios";
 import Rating from "@mui/material/Rating";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-
-type AverageRatingProps = {
-  productHandle: string;
-  averageRating: number;
-  totalReviews: number;
-  _id: string;
-};
 
 export default function AverageRating({ itemHandle }: { itemHandle: string }) {
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
 
+  const { data: filteredReviewsStats } = useQuery({
+    queryKey: ["reviews-stats"],
+    queryFn: () => fetchReviewStats(itemHandle),
+  });
+
+  console.log("stats", filteredReviewsStats);
+
   useEffect(() => {
-    const fetchReviewStats = async () => {
-      try {
-        const res = await axios.get("/api/reviews");
-
-        const filteredReviewsStats = res.data.data.reviewStats.filter(
-          (review: AverageRatingProps) => review.productHandle === itemHandle
-        );
-        // console.log(filteredReviewsStats);
-        if (filteredReviewsStats.length > 0) {
-          const stats = filteredReviewsStats[0].stats;
-          setAverageRating(stats?.averageRating);
-          setTotalReviews(stats?.totalReviews);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchReviewStats();
-  }, [itemHandle]);
-
-  //   console.log("average rating", averageRating);
-  //   console.log("Total reviews", totalReviews);
+    if (filteredReviewsStats?.length > 0) {
+      const stats = filteredReviewsStats[0].stats;
+      setAverageRating(stats?.averageRating);
+      setTotalReviews(stats?.totalReviews);
+    }
+  }, [filteredReviewsStats]);
 
   const renderRatingStars = () => {
     if (averageRating > 0) {

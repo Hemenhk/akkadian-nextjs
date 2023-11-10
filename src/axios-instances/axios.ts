@@ -55,24 +55,44 @@ export interface ReviewsProps {
 }
 
 export interface ReviewDataProps {
-  data: ReviewsProps
+  data: ReviewsProps;
 }
 
-export const fetchReviews = async (itemHandle: string) => {
+export interface AverageRatingProps {
+  productHandle: string;
+  averageRating: number;
+  totalReviews: number;
+  _id: string;
+}
+
+export interface ReviewsStatsProps {
+  reviewStats: AverageRatingProps[];
+}
+
+export interface StatsDataProps {
+  data: ReviewsStatsProps;
+}
+
+export const fetchReviews = async (handle: string) => {
   try {
     const response = await axios.get<ReviewDataProps>(`/api/reviews`);
     return response.data.data.reviews.filter(
-      (review: ReviewProps) => review.productHandle === itemHandle
+      (review: ReviewProps) => review.productHandle === handle
     );
   } catch (error) {
     console.log(error);
   }
 };
 
-// export const fetchReviews = async () => {
-//   try {
-//     return await axios.get(`/api/reviews`);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const fetchReviewStats = async (handle: string) => {
+  try {
+    const response = await axios.get(`/api/reviews`);
+    return response.data.data.reviewStats.filter(
+      (review: AverageRatingProps) => review.productHandle === handle
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

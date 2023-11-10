@@ -34,11 +34,11 @@ export default function ReviewAccordion({
 
   const renderedReviews =
     reviewData?.length > 0 ? (
-      currentReviews.map((review: ReviewProps) => (
+      currentReviews?.map((review: ReviewProps) => (
         <div key={review.id} className="flex flex-col mb-5 border-b py-4">
           <div className="flex gap-3">
             <div className="flex items-center justify-center uppercase rounded-[50%] bg-[#e0e0e0] w-12 h-12 ">
-              {review.author.charAt(0)}
+              {review?.author?.charAt(0)}
             </div>
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1">

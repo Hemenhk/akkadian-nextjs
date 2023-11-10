@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/accordion";
 import ReviewAccordion from "../review/ReviewAccordion";
 import ReviewForm from "../review/ReviewForm";
+import { useQuery } from "@tanstack/react-query";
+import { fetchReviewStats,  } from "@/axios-instances/axios";
 
 type AccordionProps = {
   productHandle: string;
@@ -17,6 +19,21 @@ export default function TheAccordion({
   metafields,
   productHandle,
 }: AccordionProps) {
+
+  const [totalReviews, setTotalReviews] = useState(0);
+
+  const { data: filteredReviewsStats } = useQuery({
+    queryKey: ["reviews-stats"],
+    queryFn: () => fetchReviewStats(productHandle)
+  });
+
+  useEffect(() => {
+    if (filteredReviewsStats?.length > 0) {
+      const stats = filteredReviewsStats[0]?.stats;
+      setTotalReviews(stats?.totalReviews);
+    }
+  }, [filteredReviewsStats]);
+
   const mappedMetafields = metafields?.slice(0, 3).map((field, idx) => (
     <AccordionItem key={idx} value={field?.key}>
       <AccordionTrigger className="uppercase text-sm tracking-widest leading-6 font-light">
@@ -34,7 +51,7 @@ export default function TheAccordion({
           {mappedMetafields}
           <AccordionItem value="Reviews">
             <AccordionTrigger className="uppercase text-sm tracking-widest leading-6 font-light">
-              Reviews 
+              Reviews ({totalReviews})
             </AccordionTrigger>
             <AccordionContent className="whitespace-break-spaces">
               <div className="pb-10">
