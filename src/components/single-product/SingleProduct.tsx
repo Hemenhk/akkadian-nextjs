@@ -98,7 +98,7 @@ export default function SingleProduct({ params }: Props) {
             disabled={!product.availableForSale || !selectedVariantId}
           />
           <p className="text-sm tracking-wide whitespace-break-spaces leading-6 text-center lg:text-left">
-            {product.description}
+            {product.metafields[3]?.value}
           </p>
           <div className="flex w-[300px] lg:hidden">
             <TheAccordion
