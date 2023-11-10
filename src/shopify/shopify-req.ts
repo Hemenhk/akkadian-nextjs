@@ -25,18 +25,6 @@ export const fetchProductWithHandle = async (handle: string) => {
   }
 };
 
-export const fetchProductWithHandleInSwedish = async (handle: string) => {
-  try {
-    const product = await swedishClient.product.fetchByHandle(handle);
-    const metafields = await fetchProductMetafields(handle);
-    console.log(product);
-
-    return { ...product, metafields };
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const fetchCollectionWithHandle = async (handle: string) => {
   try {
     const collection = await client.collection.fetchByHandle(handle);

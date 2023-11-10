@@ -2,127 +2,15 @@ import Client from "shopify-buy";
 import { GraphQLClient } from "graphql-request";
 
 const shopifyDomain = process.env.SHOPIFY_DOMAIN as string;
-export const shopifyDomainSwedish = "hemen-dev.myshopify.com/sv"
-const shopifyDomainSpanish = "hemen-dev.myshopify.com/es"
 const storefrontAccessToken = process.env
   .SHOPIFY_STOREFRONT_ACCESS_TOKEN as string;
 const apiVersion = "2023-10";
 
-export const fetchProductMetafieldsEnglish = async (productHandle: string) => {
+export const fetchProductMetafields = async (productHandle: string) => {
   const endpoint = `https://${shopifyDomain}/api/2023-10/graphql.json`;
 
   const query = `
       query getProductMetafields($handle: String!) {
-        productByHandle(handle: $handle) {
-          usageMetafield: metafield(namespace: "my_fields", key: "Usage") {
-            key
-            value
-          }
-          fragranceMetafield: metafield(namespace: "my_fields", key: "Fragrance") {
-            key
-            value
-          }
-          ingredientsMetafield: metafield(namespace: "my_fields", key: "ingredients") {
-            key
-            value
-          } 
-          descMetafield: metafield(namespace: "my_fields", key: "Description") {
-            key
-            value
-          }
-        }
-      }
-    `;
-
-  const variables = {
-    handle: productHandle,
-  };
-
-  const client = new GraphQLClient(endpoint, {
-    headers: {
-      "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
-    },
-  });
-
-  try {
-    const data: any = await client.request(query, variables);
-    const fragranceMetafield = data.productByHandle.fragranceMetafield;
-    const descMetafield = data.productByHandle.descMetafield;
-    const usageMetafield = data.productByHandle.usageMetafield;
-    const ingredientMetafield = data.productByHandle.ingredientsMetafield;
-
-    return [
-      usageMetafield,
-      fragranceMetafield,
-      ingredientMetafield,
-      descMetafield,
-    ];
-  } catch (error) {
-    console.log("Error fetching metafields:", error);
-    return [];
-  }
-};
-
-export const fetchProductMetafieldsSwedish = async (productHandle: string) => {
-  const endpoint = `https://${shopifyDomainSwedish}/api/2023-10/graphql.json`;
-
-  const query = `
-      query getProductMetafields($handle: String!) {
-        productByHandle(handle: $handle) {
-          usageMetafield: metafield(namespace: "my_fields", key: "Usage") {
-            key
-            value
-          }
-          fragranceMetafield: metafield(namespace: "my_fields", key: "Fragrance") {
-            key
-            value
-          }
-          ingredientsMetafield: metafield(namespace: "my_fields", key: "ingredients") {
-            key
-            value
-          } 
-          descMetafield: metafield(namespace: "my_fields", key: "Description") {
-            key
-            value
-          }
-        }
-      }
-    `;
-
-  const variables = {
-    handle: productHandle,
-  };
-
-  const client = new GraphQLClient(endpoint, {
-    headers: {
-      "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
-    },
-  });
-
-  try {
-    const data: any = await client.request(query, variables);
-    const fragranceMetafield = data.productByHandle.fragranceMetafield;
-    const descMetafield = data.productByHandle.descMetafield;
-    const usageMetafield = data.productByHandle.usageMetafield;
-    const ingredientMetafield = data.productByHandle.ingredientsMetafield;
-
-    return [
-      usageMetafield,
-      fragranceMetafield,
-      ingredientMetafield,
-      descMetafield,
-    ];
-  } catch (error) {
-    console.log("Error fetching metafields:", error);
-    return [];
-  }
-};
-
-export const fetchProductMetafieldsSpanish = async (productHandle: string) => {
-  const endpoint = `https://${shopifyDomainSpanish}/api/2023-10/graphql.json`;
-
-  const query = `
-      query getProductMetafields ($handle: String!) {
         productByHandle(handle: $handle) {
           usageMetafield: metafield(namespace: "my_fields", key: "Usage") {
             key
@@ -181,32 +69,9 @@ if (shopifyDomain === undefined) {
   throw new Error("SHOPIFY_DOMAIN is not defined");
 }
 
-if (shopifyDomainSwedish === undefined) {
-  throw new Error("SHOPIFY_DOMAIN is not defined");
-}
-
-if (shopifyDomainSpanish === undefined) {
-  throw new Error("SHOPIFY_DOMAIN is not defined");
-}
-
 export const client = Client.buildClient({
   domain: shopifyDomain,
   storefrontAccessToken,
   apiVersion,
   language: "en",
 });
-
-export const swedishClient = Client.buildClient({
-  domain: shopifyDomain,
-  storefrontAccessToken,
-  apiVersion,
-  language: "sv",
-});
-
-export const spanishClient = Client.buildClient({
-  domain: shopifyDomain,
-  storefrontAccessToken,
-  apiVersion,
-  language: "es",
-});
-

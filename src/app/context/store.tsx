@@ -1,14 +1,7 @@
 "use client";
 
 import {
-  client,
-  // fetchProductMetafields,
-  fetchProductMetafieldsEnglish,
-  fetchProductMetafieldsSpanish,
-  fetchProductMetafieldsSwedish,
-  shopifyDomainSwedish,
-  spanishClient,
-  swedishClient,
+  client, fetchProductMetafields,
 } from "@/shopify/shopify-cred";
 import {
   Dispatch,
@@ -25,19 +18,16 @@ type TShopifyContext = {
   collection: Collection[];
   checkout: Checkout;
   isCartOpen: boolean;
-  language: string;
   setProduct: Dispatch<SetStateAction<Product>>;
   setCheckout: Dispatch<SetStateAction<Checkout>>;
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
-  setLanguage: Dispatch<SetStateAction<string>>;
   createCheckout: () => Promise<void>;
   fetchCheckout: (checkoutId: string) => Promise<void>;
-  // fetchProductWithHandle: (handle: string) => Promise<void>;
+  fetchProductWithHandle: (handle: string) => Promise<void>;
   fetchAllCollections: () => Promise<void>;
   addItemToCheckout: (variantId: string, quantity: number) => Promise<void>;
   updateLineItem: (lineItemId: string, quantity: number) => Promise<void>;
   removeLineItems: (lineItemsToRemove: string[]) => Promise<void>;
-  handleProductFetch: (handle: string) => Promise<void>;
 };
 
 const ShopifyContext = createContext<TShopifyContext>({
@@ -45,15 +35,12 @@ const ShopifyContext = createContext<TShopifyContext>({
   collection: [],
   checkout: null,
   isCartOpen: false,
-  language: "",
   setProduct: () => {},
   setCheckout: () => {},
   setIsCartOpen: () => false,
-  setLanguage: () => "",
   createCheckout: async () => {},
   fetchCheckout: async (checkoutId: string) => {},
-  // fetchProductWithHandle: async (handle: string) => {},
-  handleProductFetch: async (handle: string) => {},
+  fetchProductWithHandle: async (handle: string) => {},
   fetchAllCollections: async () => {},
   addItemToCheckout: async (variantId: string, quantity: number) => {},
   updateLineItem: async (lineItemId: string, quantity: number) => {},
@@ -65,78 +52,25 @@ export const ShopifyContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [language, setLanguage] = useState("en");
   const [product, setProduct] = useState<Product | null>(null);
   const [collection, setCollection] = useState<Collection[] | []>([]);
   const [checkout, setCheckout] = useState<Checkout | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  console.log(language);
-
-  const createCheckoutEnglish = async () => {
-    try {
-      const checkout = await client.checkout.create();
-      console.log("Checkout Created in english!", checkout);
-      localStorage.setItem("checkout_id", checkout.id);
-      setCheckout(checkout);
-    } catch (error) {
-      console.error("Error creating checkout:", error);
-    }
-  };
-
-  const createCheckoutSwedish = async () => {
-    try {
-      const checkout = await swedishClient.checkout.create();
-      console.log("Checkout Created in swedish!", checkout);
-      localStorage.setItem("checkout_id", checkout.id);
-      setCheckout(checkout);
-    } catch (error) {
-      console.error("Error creating checkout:", error);
-    }
-  };
-  const createCheckoutSpanish = async () => {
-    try {
-      const checkout = await spanishClient.checkout.create();
-      console.log("Checkout Created in spanish!", checkout);
-      localStorage.setItem("checkout_id", checkout.id);
-      setCheckout(checkout);
-    } catch (error) {
-      console.error("Error creating checkout:", error);
-    }
-  };
 
   const createCheckout = async () => {
-    if (language === "en") {
-      await createCheckoutEnglish();
-    } else if (language === "sv") {
-      await createCheckoutSwedish();
-    } else if (language === "es") {
-      await createCheckoutSpanish();
+    try {
+      const checkout = await client.checkout.create();
+      // console.log("Checkout Created in english!", checkout);
+      localStorage.setItem("checkout_id", checkout.id);
+      setCheckout(checkout);
+    } catch (error) {
+      console.error("Error creating checkout:", error);
     }
-  };
-
-  const fetchCheckoutEnglish = async (checkoutId: string) => {
-    const checkout = await client.checkout.fetch(checkoutId);
-    setCheckout(checkout);
-  };
-
-  const fetchCheckoutSwedish = async (checkoutId: string) => {
-    const checkout = await swedishClient.checkout.fetch(checkoutId);
-    setCheckout(checkout);
-  };
-
-  const fetchCheckoutSpanish = async (checkoutId: string) => {
-    const checkout = await spanishClient.checkout.fetch(checkoutId);
-    setCheckout(checkout);
   };
 
   const fetchCheckout = async (checkoutId: string) => {
-    if (language === "en") {
-      await fetchCheckoutEnglish(checkoutId);
-    } else if (language === "sv") {
-      await fetchCheckoutSwedish(checkoutId);
-    } else if (language === "es") {
-      await fetchCheckoutSpanish(checkoutId);
-    }
+    const checkout = await client.checkout.fetch(checkoutId);
+    setCheckout(checkout);
   };
 
   useEffect(() => {
@@ -151,7 +85,7 @@ export const ShopifyContextProvider = ({
     } else {
       fetchCheckout(checkoutId);
     }
-  }, [checkout?.completedAt, language]);
+  }, [checkout?.completedAt]);
 
   const addItemToCheckout = async (variantId: string, quantity: number) => {
     try {
@@ -187,40 +121,14 @@ export const ShopifyContextProvider = ({
     setCheckout(newCheckout);
   };
 
-  const fetchProductWithHandleEnglish = async (handle: string) => {
+  const fetchProductWithHandle = async (handle: string) => {
     try {
       const product = await client.product.fetchByHandle(handle);
-      const metafields = (await fetchProductMetafieldsEnglish(
+      const metafields = (await fetchProductMetafields(
         handle
       )) as Metafield[];
-      const monmey = (await client.shop.fetchInfo()).moneyFormat;
-      console.log("url", monmey);
       console.log("Product is fetched", product);
       console.log("meta", metafields);
-      setProduct({ ...product, metafields });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchProductWithHandleSwedish = async (handle: string) => {
-    try {
-      const product = await swedishClient.product.fetchByHandle(handle);
-      const metafields = await fetchProductMetafieldsSwedish(handle);
-      const url = await swedishClient.shop.fetchInfo();
-      const swedishURL = `${url.primaryDomain.url}/sv`;
-      console.log("url", swedishURL);
-      console.log("Product is fetched", product);
-      setProduct({ ...product, metafields });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchProductWithHandleSpanish = async (handle: string) => {
-    try {
-      const product = await spanishClient.product.fetchByHandle(handle);
-      const metafields = await fetchProductMetafieldsSpanish(handle);
-      console.log("Product is fetched", product);
       setProduct({ ...product, metafields });
     } catch (error) {
       console.log(error);
@@ -237,16 +145,6 @@ export const ShopifyContextProvider = ({
     }
   };
 
-  const handleProductFetch = async (handle: string) => {
-    if (language === "en") {
-      await fetchProductWithHandleEnglish(handle);
-    } else if (language === "sv") {
-      await fetchProductWithHandleSwedish(handle);
-    } else if (language === "es") {
-      await fetchProductWithHandleSpanish(handle);
-    }
-  };
-
   return (
     <ShopifyContext.Provider
       value={{
@@ -254,14 +152,12 @@ export const ShopifyContextProvider = ({
         collection,
         checkout,
         isCartOpen,
-        language,
         createCheckout,
         fetchCheckout,
         setCheckout,
         setProduct,
         setIsCartOpen,
-        setLanguage,
-        handleProductFetch,
+        fetchProductWithHandle,
         fetchAllCollections,
         addItemToCheckout,
         updateLineItem,

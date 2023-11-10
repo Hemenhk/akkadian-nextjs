@@ -48,7 +48,7 @@ export default function LogoUploadForm() {
       console.log("logo", cloudinaryResponse);
       const logoValue  = cloudinaryResponse.data.secure_url;
 
-      const res = await updateLogo({ logoImage: logoValue });
+      const res = await updateLogo({ logo: logoValue });
       console.log("logo", res);
       setIsLoading(false);
     } catch (e: any) {
