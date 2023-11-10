@@ -10,7 +10,6 @@ import ProductVariants from "@/components/single-product/variants/ProductVariant
 import QuantitySelector from "@/components/single-product/quantity-selector/QuantitySelector";
 import TheAccordion from "@/components/single-product/accordion/Accordion";
 import TheButton from "@/components/ui/TheButton";
-import ReviewForm from "./review/ReviewForm";
 import AverageRating from "./review/AverageRating";
 
 type Props = {
@@ -20,14 +19,14 @@ type Props = {
 export default function SingleProduct({ params }: Props) {
   const {
     product,
-    handleProductFetch,
+    fetchProductWithHandle,
     addItemToCheckout,
   } = useShopifyContext();
   const [selectedVariantId, setSelectedVariantId] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    handleProductFetch(params.productHandle);
+    fetchProductWithHandle(params.productHandle);
   }, [params.productHandle]);
 
   useEffect(() => {

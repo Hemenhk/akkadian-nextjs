@@ -1,4 +1,4 @@
-import { client, fetchProductMetafields, swedishClient } from "./shopify-cred";
+import { client, fetchProductMetafields } from "./shopify-cred";
 
 export const createCheckout = () => async () => {
   const checkout = await client.checkout.create();
