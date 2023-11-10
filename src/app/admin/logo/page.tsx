@@ -7,15 +7,28 @@ import axios from "axios";
 
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { Oval } from "react-loader-spinner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AdminValues, updateAdminValues } from "@/axios-instances/axios";
 
 export default function LogoUploadForm() {
   const [file, setFile] = useState<File>();
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const goBackHandler = () => {
     router.push("/admin");
   };
+
+  const { mutateAsync: updateLogo } = useMutation({
+    mutationFn: async (data: AdminValues) => {
+      return updateAdminValues(data);
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(["admin"], data);
+      queryClient.refetchQueries({ queryKey: ["admin"] });
+    },
+  });
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,13 +46,10 @@ export default function LogoUploadForm() {
         data
       );
       console.log("logo", cloudinaryResponse);
-      const logoUrl = cloudinaryResponse.data.secure_url;
+      const logoValue  = cloudinaryResponse.data.secure_url;
 
-      const res = await axios.patch("/api/auth/admin-dashboard/logo", {
-        logoUrl, // Pass any other relevant data here
-      });
-      console.log(res);
-
+      const res = await updateLogo({ logoImage: logoValue });
+      console.log("logo", res);
       setIsLoading(false);
     } catch (e: any) {
       console.error(e);

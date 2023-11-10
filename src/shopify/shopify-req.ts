@@ -1,4 +1,4 @@
-import { client, fetchProductMetafields } from "./shopify-cred";
+import { client, fetchProductMetafields, swedishClient } from "./shopify-cred";
 
 export const createCheckout = () => async () => {
   const checkout = await client.checkout.create();
@@ -16,6 +16,18 @@ export const fetchCheckout = async (checkoutId: string) => {
 export const fetchProductWithHandle = async (handle: string) => {
   try {
     const product = await client.product.fetchByHandle(handle);
+    const metafields = await fetchProductMetafields(handle);
+    console.log(product);
+
+    return { ...product, metafields };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchProductWithHandleInSwedish = async (handle: string) => {
+  try {
+    const product = await swedishClient.product.fetchByHandle(handle);
     const metafields = await fetchProductMetafields(handle);
     console.log(product);
 

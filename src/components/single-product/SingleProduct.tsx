@@ -18,13 +18,16 @@ type Props = {
 };
 
 export default function SingleProduct({ params }: Props) {
-  const { product, fetchProductWithHandle, addItemToCheckout } =
-    useShopifyContext();
+  const {
+    product,
+    handleProductFetch,
+    addItemToCheckout,
+  } = useShopifyContext();
   const [selectedVariantId, setSelectedVariantId] = useState("");
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    fetchProductWithHandle(params.productHandle);
+    handleProductFetch(params.productHandle);
   }, [params.productHandle]);
 
   useEffect(() => {
@@ -33,7 +36,7 @@ export default function SingleProduct({ params }: Props) {
     }
   }, [product]);
 
-  // console.log(product);
+  console.log(product);
 
   const addItemToCartHandler = () => {
     console.log("addItemToCartHandler called");
@@ -96,7 +99,7 @@ export default function SingleProduct({ params }: Props) {
             disabled={!product.availableForSale || !selectedVariantId}
           />
           <p className="text-sm tracking-wide whitespace-break-spaces leading-6 text-center lg:text-left">
-            {product.metafields[3]?.value}
+            {product.description}
           </p>
           <div className="flex w-[300px] lg:hidden">
             <TheAccordion

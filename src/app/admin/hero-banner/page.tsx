@@ -1,13 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
-import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +19,12 @@ import { Input } from "@/components/ui/input";
 
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { Oval } from "react-loader-spinner";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  AdminValues,
+  fetchAdminValues,
+  updateAdminValues,
+} from "@/axios-instances/axios";
 
 const formSchema = z.object({
   heroHeading: z.string(),
@@ -31,47 +34,31 @@ const formSchema = z.object({
 });
 
 export default function HeroPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [heroValues, setHeroValues] = useState({
-    heroHeading: "",
-    heroSubHeading: "",
-    heroButtonText: "",
-    heroButtonColor: "",
-  });
+  const queryClient = useQueryClient();
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const data = await axios.get("/api/auth/admin-dashboard/hero-banner");
-        setHeroValues({
-          heroHeading: data.data.heroValues[0].heroHeading,
-          heroSubHeading: data.data.heroValues[0].heroSubHeading,
-          heroButtonText: data.data.heroValues[0].heroButtonText,
-          heroButtonColor: data.data.heroValues[0].heroButtonColor,
-        });
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const { data: heroValues } = useQuery({
+    queryKey: ["admin"],
+    queryFn: fetchAdminValues,
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      heroHeading: "",
-      heroSubHeading: "",
-      heroButtonText: "",
-      heroButtonColor: "",
-    },
     values: {
-      heroHeading: heroValues.heroHeading,
-      heroSubHeading: heroValues.heroSubHeading,
-      heroButtonText: heroValues.heroButtonText,
-      heroButtonColor: heroValues.heroButtonColor,
+      heroHeading: heroValues?.heroHeading,
+      heroSubHeading: heroValues?.heroSubHeading,
+      heroButtonText: heroValues?.heroButtonText,
+      heroButtonColor: heroValues?.heroButtonColor,
+    },
+  });
+
+  const { mutateAsync: updateBannerMutation, isPending } = useMutation({
+    mutationFn: async (data: AdminValues) => {
+      updateAdminValues(data);
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(["admin"], data);
+      queryClient.refetchQueries({ queryKey: ["admin"] });
     },
   });
 
@@ -81,14 +68,14 @@ export default function HeroPage() {
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsLoading(true)
-      const res = await axios.patch(
-        " /api/auth/admin-dashboard/hero-banner",
-        values
-      );
-      setIsLoading(false)
-      router.refresh()
-      console.log(res);
+      const { heroButtonColor, heroButtonText, heroHeading, heroSubHeading } =
+        values;
+      await updateBannerMutation({
+        heroButtonColor,
+        heroButtonText,
+        heroHeading,
+        heroSubHeading,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -186,7 +173,7 @@ export default function HeroPage() {
             className="w-full rounded-sm px-16 uppercase tracking-widest"
             type="submit"
           >
-            {isLoading ? (
+            {isPending ? (
               <div className="flex flex-row items-center justify-center gap-2">
                 <Oval
                   height={20}

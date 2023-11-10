@@ -1,54 +1,30 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import  Rating  from "@mui/material/Rating";
-import axios from "axios";
+import React, { useState } from "react";
+import Rating from "@mui/material/Rating";
 import TheButton from "@/components/ui/TheButton";
-
-type ReviewAccordionProps = {
-  productHandle: string;
-  author: string;
-  rating: number;
-  review: string;
-  title: string;
-  createdAt: string;
-  id: string;
-};
+import { useQuery } from "@tanstack/react-query";
+import { ReviewProps, fetchReviews } from "@/axios-instances/axios";
 
 export default function ReviewAccordion({
   itemHandle,
 }: {
   itemHandle: string;
 }) {
-  const [reviews, setReviews] = useState<ReviewAccordionProps[] | []>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewsPerPage] = useState(5);
 
-  //   console.log("handle",itemHandle);
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await axios.get(`/api/reviews`);
+  const { data: reviewData } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: () => fetchReviews(itemHandle)
+  });
 
-        const filteredReviews = res.data.data.reviews.filter(
-          (review: ReviewAccordionProps) => review.productHandle === itemHandle
-        );
-
-        setReviews(filteredReviews);
-
-        console.log("Reviews", res);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      }
-    };
-    fetchReviews();
-  }, [itemHandle]);
-
-  console.log("revies",reviews)
+  // console.log("review data", reviewData);
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = reviewData?.slice(indexOfFirstReview, indexOfLastReview);
+
   const loadMoreReviewsHandler = () => {
     setCurrentPage((prevState) => prevState + 1);
   };
@@ -56,11 +32,9 @@ export default function ReviewAccordion({
     setCurrentPage((prevState) => prevState - 1);
   };
 
-  //   console.log("CLG", reviews);
-
   const renderedReviews =
-    reviews.length > 0 ? (
-      currentReviews.map((review) => (
+    reviewData?.length > 0 ? (
+      currentReviews.map((review: ReviewProps) => (
         <div key={review.id} className="flex flex-col mb-5 border-b py-4">
           <div className="flex gap-3">
             <div className="flex items-center justify-center uppercase rounded-[50%] bg-[#e0e0e0] w-12 h-12 ">
@@ -100,7 +74,7 @@ export default function ReviewAccordion({
             onClick={loadPreviousReviewsHandler}
           />
         )}
-        {reviews.length > indexOfLastReview && (
+        {reviewData?.length > indexOfLastReview && (
           <TheButton
             label="Load more reviews"
             onClick={loadMoreReviewsHandler}

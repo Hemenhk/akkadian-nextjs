@@ -17,7 +17,7 @@ export default function TheAccordion({
   metafields,
   productHandle,
 }: AccordionProps) {
-  const mappedMetafields = metafields.slice(0, 3).map((field, idx) => (
+  const mappedMetafields = metafields?.slice(0, 3).map((field, idx) => (
     <AccordionItem key={idx} value={field?.key}>
       <AccordionTrigger className="uppercase text-sm tracking-widest leading-6 font-light">
         {field?.key}
@@ -29,12 +29,12 @@ export default function TheAccordion({
   ));
   return (
     <>
-      {metafields[0] !== null ? (
+      {metafields && metafields[0] !== null ? (
         <Accordion type="single" collapsible className="w-[450px]">
           {mappedMetafields}
           <AccordionItem value="Reviews">
             <AccordionTrigger className="uppercase text-sm tracking-widest leading-6 font-light">
-              Reviews
+              Reviews 
             </AccordionTrigger>
             <AccordionContent className="whitespace-break-spaces">
               <div className="pb-10">

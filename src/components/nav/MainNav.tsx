@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useHover } from "@uidotdev/usehooks";
@@ -10,11 +9,11 @@ import Link from "next/link";
 import SideNav from "./sidenav/SideNav";
 import CartIcon from "../cart/CartIcon";
 import TheButton from "../ui/TheButton";
-import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAdminValues } from "@/axios-instances/axios";
 
 
 export default function MainNav() {
-  const [logo, setLogo] = useState("");
 
   const { data: session } = useSession();
   const [hoverRef, isHovered] = useHover<HTMLDivElement>();
@@ -22,33 +21,24 @@ export default function MainNav() {
   const isAdminPage = pathname === "/admin";
   const isHomePage = pathname === "/";
 
+  const {data: logoValue} = useQuery({
+    queryKey: ["admin"],
+    queryFn: fetchAdminValues
+  })
+
+  console.log("logo header", logoValue?.logo)
+
   const signOutHandler = () => {
     signOut();
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const cachedLogoValue = localStorage.getItem("logo");
-        if (cachedLogoValue) {
-          setLogo(JSON.parse(cachedLogoValue));
-        }
-        const res = await axios.get("/api/auth/admin-dashboard/hero-banner");
-        const data = res.data.heroValues[0];
-        localStorage.setItem("logo", JSON.stringify(data));
-        setLogo(data.logo);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  
 
   const adminHeader = (
     <>
       <SideNav isHovered={isHovered} isHomePage={isHomePage} />
       <Link href={"/"}>
-        <Image src={logo} alt="logo" width={50} height={50} />
+        <Image src={logoValue?.logo} alt="logo" width={50} height={50} />
       </Link>
       <TheButton label="sign out" onClick={signOutHandler} width="w-[150px]" />
     </>
@@ -58,7 +48,7 @@ export default function MainNav() {
     <>
       <SideNav isHovered={isHovered} isHomePage={isHomePage}/>
       <Link href={"/"}>
-        <Image src={logo} alt="logo" width={50} height={50} />
+        <Image src={logoValue?.logo} alt="logo" width={50} height={50} />
       </Link>
       <CartIcon isHovered={isHovered} isHomePage={isHomePage} />
     </>
