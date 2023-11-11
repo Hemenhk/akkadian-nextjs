@@ -35,7 +35,7 @@ export default function SingleProduct({ params }: Props) {
     }
   }, [product]);
 
-  console.log(product);
+  console.log("product", product);
 
   const addItemToCartHandler = () => {
     console.log("addItemToCartHandler called");
