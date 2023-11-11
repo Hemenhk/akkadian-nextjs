@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  client, fetchProductMetafields,
-} from "@/shopify/shopify-cred";
+import { client, fetchProductMetafields } from "@/shopify/shopify-cred";
 import {
   Dispatch,
   SetStateAction,
@@ -23,7 +21,7 @@ type TShopifyContext = {
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
   createCheckout: () => Promise<void>;
   fetchCheckout: (checkoutId: string) => Promise<void>;
-  fetchProductWithHandle: (handle: string) => Promise<void>;
+  fetchProductWithHandle: (handle: string) => Promise<Product>;
   fetchAllCollections: () => Promise<void>;
   addItemToCheckout: (variantId: string, quantity: number) => Promise<void>;
   updateLineItem: (lineItemId: string, quantity: number) => Promise<void>;
@@ -40,7 +38,9 @@ const ShopifyContext = createContext<TShopifyContext>({
   setIsCartOpen: () => false,
   createCheckout: async () => {},
   fetchCheckout: async (checkoutId: string) => {},
-  fetchProductWithHandle: async (handle: string) => {},
+  fetchProductWithHandle: async (handle: string) => {
+    return Promise.resolve(null);
+  },
   fetchAllCollections: async () => {},
   addItemToCheckout: async (variantId: string, quantity: number) => {},
   updateLineItem: async (lineItemId: string, quantity: number) => {},
@@ -124,12 +124,11 @@ export const ShopifyContextProvider = ({
   const fetchProductWithHandle = async (handle: string) => {
     try {
       const product = await client.product.fetchByHandle(handle);
-      const metafields = (await fetchProductMetafields(
-        handle
-      )) as Metafield[];
+      const metafields = (await fetchProductMetafields(handle)) as Metafield[];
       console.log("Product is fetched", product);
       console.log("meta", metafields);
-      setProduct({ ...product, metafields });
+      // setProduct({ ...product, metafields });
+      return { ...product, metafields };
     } catch (error) {
       console.log(error);
     }

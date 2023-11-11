@@ -22,6 +22,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@shopify/shopify-api": "^8.0.2",
     "@tanstack/react-query": "^5.8.1",
+    "@tanstack/react-query-devtools": "^5.8.1",
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",

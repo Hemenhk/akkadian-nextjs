@@ -11,6 +11,7 @@ import QuantitySelector from "@/components/single-product/quantity-selector/Quan
 import TheAccordion from "@/components/single-product/accordion/Accordion";
 import TheButton from "@/components/ui/TheButton";
 import AverageRating from "./review/AverageRating";
+import { useQuery } from "@tanstack/react-query";
 
 type Props = {
   params: { productHandle: string };
@@ -18,16 +19,17 @@ type Props = {
 
 export default function SingleProduct({ params }: Props) {
   const {
-    product,
+    // product,
     fetchProductWithHandle,
     addItemToCheckout,
   } = useShopifyContext();
   const [selectedVariantId, setSelectedVariantId] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  useEffect(() => {
-    fetchProductWithHandle(params.productHandle);
-  }, [params.productHandle]);
+  const { data: product } = useQuery({
+    queryKey: ["single-product"],
+    queryFn: () => fetchProductWithHandle(params.productHandle),
+  });
 
   useEffect(() => {
     if (product?.variants && product.variants.length === 1) {

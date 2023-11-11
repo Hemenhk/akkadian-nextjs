@@ -12,6 +12,7 @@ import TheFooter from "@/components/footer/TheFooter";
 import "./globals.css";
 import MUIProvider from "./context/mui";
 import ReactQueryProvider from "./context/tanstack-client";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-roboto-mono" });
 
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: Children) {
               <Providers>
                 <ShopifyContextProvider>
                   {isNotAdmin}
+                  <ReactQueryDevtools />
                   <TheFooter />
                 </ShopifyContextProvider>
               </Providers>
