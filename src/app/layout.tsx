@@ -13,6 +13,8 @@ import "./globals.css";
 import MUIProvider from "./context/mui";
 import ReactQueryProvider from "./context/tanstack-client";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools"
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchAdminValues } from "@/axios-instances/axios";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-roboto-mono" });
 
@@ -40,6 +42,8 @@ export default function RootLayout({ children }: Children) {
       {children}
     </>
   );
+
+  
 
   return (
     <html lang="en">

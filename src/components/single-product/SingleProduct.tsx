@@ -19,7 +19,6 @@ type Props = {
 
 export default function SingleProduct({ params }: Props) {
   const {
-    // product,
     fetchProductWithHandle,
     addItemToCheckout,
   } = useShopifyContext();
@@ -48,6 +47,10 @@ export default function SingleProduct({ params }: Props) {
       console.log("Please select a variant before adding to cart.");
       return null;
     }
+  };
+
+  const replaceLineBreaks = (htmlString) => {
+    return { __html: htmlString?.replace(/<br\s*\/?>/g, "<br />") };
   };
 
   if (!product) {
@@ -99,9 +102,8 @@ export default function SingleProduct({ params }: Props) {
             onClick={selectedVariantId ? addItemToCartHandler : undefined}
             disabled={!product.availableForSale || !selectedVariantId}
           />
-          <p className="text-sm tracking-wide whitespace-break-spaces leading-6 text-center lg:text-left">
-            {product.metafields[3]?.value}
-          </p>
+          <p className="text-sm tracking-wide leading-6 lg:text-left" dangerouslySetInnerHTML={replaceLineBreaks(product?.descriptionHtml)} />
+            
           <div className="flex w-[300px] lg:hidden">
             <TheAccordion
               productHandle={params.productHandle}

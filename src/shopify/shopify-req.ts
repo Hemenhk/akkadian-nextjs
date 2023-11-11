@@ -28,10 +28,36 @@ export const fetchProductWithHandle = async (handle: string) => {
 export const fetchCollectionWithHandle = async (handle: string) => {
   try {
     const collection = await client.collection.fetchByHandle(handle);
-    // console.log("coll", collection);
     return collection;
   } catch (error) {
     console.log(error);
   }
 };
 
+export const fetchTermsPolicy = async () => {
+  try {
+    const termsPolicy = await client.shop.fetchPolicies();
+    return termsPolicy.termsOfService;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const fetchPrivacyPolicy = async () => {
+  try {
+    const termsPolicy = await client.shop.fetchPolicies();
+    return termsPolicy.privacyPolicy;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchReturnPolicy = async () => {
+  try {
+    const termsPolicy = await client.shop.fetchPolicies();
+    return termsPolicy.refundPolicy;
+  } catch (error) {
+    console.log(error);
+  }
+};

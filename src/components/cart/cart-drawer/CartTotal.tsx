@@ -15,10 +15,10 @@ export default function CartTotal() {
       {checkout.lineItems?.length ? (
         <Flex flexDirection={"column"} gap={5}>
           <Flex flexDirection={"column"} gap={5}>
-            <Link href={checkout.webUrl}>
+            <Link href={checkout?.webUrl}>
               <TheButton
-                label={`Checkout - ${totalPrice && totalPrice.amount} ${
-                  totalPrice && totalPrice.currencyCode
+                label={`Checkout - ${totalPrice && totalPrice?.amount} ${
+                  totalPrice && totalPrice?.currencyCode
                 }`}
               />
             </Link>

@@ -2,23 +2,17 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Collection } from "shopify-buy";
-
 import { fetchCollectionWithHandle } from "@/shopify/shopify-req";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import CollectionPrice from "../collection/CollectionPrice";
+import { useQuery } from "@tanstack/react-query";
 
 export default function FeaturedCollection({ handle }: { handle: string }) {
-  const [collection, setCollection] = useState<Collection | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetchCollectionWithHandle(handle);
-      setCollection(res);
-    };
-    fetchData();
-  }, [handle]);
+  const { data: collection } = useQuery({
+    queryKey: ["collection-handle"],
+    queryFn: () => fetchCollectionWithHandle(handle),
+  });
 
   const mappedCollection =
     collection &&
