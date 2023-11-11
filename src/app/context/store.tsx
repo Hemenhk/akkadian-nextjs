@@ -67,6 +67,8 @@ export const ShopifyContextProvider = ({
     setCheckout(checkout);
   };
 
+  
+
   useEffect(() => {
     const checkoutId = localStorage.getItem("checkout_id");
     const completedOrder = checkout?.completedAt;

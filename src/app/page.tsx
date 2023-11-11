@@ -1,15 +1,21 @@
 "use client";
 import HeroBanner from "@/components/hero/HeroBanner";
 import FeaturedCollection from "@/components/featured-collection/FeaturedCollection";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchAdminValues } from "@/axios-instances/axios";
 
 export default function Home() {
+  const queryClient = useQueryClient();
 
-  const {data: adminValues} = useQuery({
+  queryClient.prefetchQuery({
     queryKey: ["admin"],
-    queryFn: fetchAdminValues
-  })
+    queryFn: fetchAdminValues,
+  });
+
+  const { data: adminValues } = useQuery({
+    queryKey: ["admin"],
+    queryFn: fetchAdminValues,
+  });
 
   const bgImageStyle = {
     background: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${adminValues?.heroImage}) center/cover no-repeat`,
