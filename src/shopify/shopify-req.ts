@@ -1,18 +1,5 @@
 import { client, fetchProductMetafields } from "./shopify-cred";
 
-export const createCheckout = () => async () => {
-  const checkout = await client.checkout.create();
-  console.log("Checkout created!");
-  localStorage.setItem("checkout_id", checkout.id);
-
-  return checkout;
-};
-
-export const fetchCheckout = async (checkoutId: string) => {
-  const checkout = await client.checkout.fetch(checkoutId);
-  return checkout;
-};
-
 export const fetchProductWithHandle = async (handle: string) => {
   try {
     const product = await client.product.fetchByHandle(handle);
@@ -34,6 +21,15 @@ export const fetchCollectionWithHandle = async (handle: string) => {
   }
 };
 
+export const fetchAllCollections = async () => {
+  try {
+    const collection = await client.collection.fetchAll();
+    return collection;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const fetchTermsPolicy = async () => {
   try {
     const termsPolicy = await client.shop.fetchPolicies();
@@ -42,7 +38,6 @@ export const fetchTermsPolicy = async () => {
     console.log(error);
   }
 };
-
 
 export const fetchPrivacyPolicy = async () => {
   try {
