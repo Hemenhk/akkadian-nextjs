@@ -10,24 +10,24 @@ const handler = NextAuth({
   },
   providers: [
     CredentialsProvider({
-      credentials: {
-        
-      },
+      credentials: {},
       async authorize(credentials, req) {
         await connectToDatabase();
         if (!credentials) {
           throw new Error("Credentials are missing");
         }
 
-      
-        const adminUser = await AdminAuth.findOne({ email: credentials?.email }).select("+password");
+        const { email, password } = credentials as any;
+        const adminUser = await AdminAuth.findOne({
+          email: email,
+        }).select("+password");
 
         if (!adminUser) {
           throw new Error("No admin was found");
         }
 
         const validPassword = await verifyPassword(
-          credentials?.password || "",
+          password || "",
           adminUser.password
         );
 
@@ -36,7 +36,7 @@ const handler = NextAuth({
         }
 
         if (validPassword) {
-          console.log(validPassword)
+          console.log(validPassword);
           return {
             id: adminUser._id,
             email: adminUser.email,

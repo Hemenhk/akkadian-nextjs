@@ -37,6 +37,13 @@ const adminDashboard = new mongoose.Schema({
   heroButtonColor: {
     type: String,
   },
+  footerBackgroundColor: {
+    type: String,
+  },
+  logo: {
+    type: String,
+  },
+  productId: {},
 });
 
 const AdminDashboard: Model<AdminDashboardDocument> =

@@ -30,3 +30,87 @@ export async function POST(req: NextRequest) {
     });
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    await connectToDatabase();
+
+    const reqBody = await req.json();
+
+    const announcementText: string = reqBody.announcementText;
+    const announcementColor: string = reqBody.announcementColor;
+    const footerBackgroundColor: string = reqBody.footerBackgroundColor;
+    const heroHeading: string = reqBody.heroHeading;
+    const heroSubHeading: string = reqBody.heroSubHeading;
+    const heroButtonText: string = reqBody.heroButtonText;
+    const heroButtonColor: string = reqBody.heroButtonColor;
+    const heroImage = reqBody.heroImage;
+    const logoImage = reqBody.logoImage;
+
+
+    console.log(announcementText);
+    console.log(announcementColor);
+
+    const { _id } = await AdminDashboard.findOne();
+
+    const dashboardValues = await AdminDashboard.updateOne(
+      {
+        _id,
+      },
+      {
+        $set: {
+          announcementColor: announcementColor,
+          announcementText: announcementText,
+          heroHeading: heroHeading,
+          heroSubHeading: heroSubHeading,
+          heroButtonText: heroButtonText,
+          heroButtonColor: heroButtonColor,
+          heroImage: heroImage,
+          footerBackgroundColor: footerBackgroundColor,
+          logo: logoImage,
+        },
+      }
+    );
+
+    return NextResponse.json({
+      status: 200,
+      success: true,
+      data: {
+        dashboardValues
+      },
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      status: 400,
+      body: {
+        success: false,
+        error: error.message,
+      },
+    });
+  }
+}
+
+export async function GET() {
+  try {
+    await connectToDatabase();
+    const dashboardValues = await AdminDashboard.find();
+
+    if (!dashboardValues) {
+      throw new Error("Document not found");
+    }
+
+    return NextResponse.json({
+      status: 200,
+      success: true,
+      dashboardValues,
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      status: 400,
+      body: {
+        success: false,
+        error: error.message,
+      },
+    });
+  }
+}

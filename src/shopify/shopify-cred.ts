@@ -1,10 +1,13 @@
 import Client from "shopify-buy";
 import { GraphQLClient } from "graphql-request";
 
+const shopifyDomain = process.env.SHOPIFY_DOMAIN as string;
+const storefrontAccessToken = process.env
+  .SHOPIFY_STOREFRONT_ACCESS_TOKEN as string;
+const apiVersion = "2023-10";
 
 export const fetchProductMetafields = async (productHandle: string) => {
-  const endpoint = `https://hemen-dev.myshopify.com/api/2021-07/graphql.json`;
-  const storefrontAccessToken = "95de33e587cd2baf92b82488c3347725";
+  const endpoint = `https://${shopifyDomain}/api/2023-10/graphql.json`;
 
   const query = `
       query getProductMetafields($handle: String!) {
@@ -20,7 +23,8 @@ export const fetchProductMetafields = async (productHandle: string) => {
           ingredientsMetafield: metafield(namespace: "my_fields", key: "ingredients") {
             key
             value
-          } descMetafield: metafield(namespace: "my_fields", key: "Description") {
+          } 
+          descMetafield: metafield(namespace: "my_fields", key: "Description") {
             key
             value
           }
@@ -57,21 +61,17 @@ export const fetchProductMetafields = async (productHandle: string) => {
   }
 };
 
-const domain: string | undefined = "hemen-dev.myshopify.com";
-const storefrontAccessToken: string | undefined =
-  "95de33e587cd2baf92b82488c3347725";
-const apiVersion = "2023-07";
-
 if (storefrontAccessToken === undefined) {
-  throw new Error("REACT_APP_SHOPIFY_API is not defined");
+  throw new Error("SHOPIFY_STOREFRONT_ACCESS_TOKEN is not defined");
 }
 
-if (domain === undefined) {
-  throw new Error("REACT_APP_SHOPIFY_DOMAIN is not defined");
+if (shopifyDomain === undefined) {
+  throw new Error("SHOPIFY_DOMAIN is not defined");
 }
 
 export const client = Client.buildClient({
-  domain,
+  domain: shopifyDomain,
   storefrontAccessToken,
-  apiVersion
+  apiVersion,
+  language: "en",
 });

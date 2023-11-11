@@ -1,13 +1,19 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useShopifyContext } from "@/app/context/store";
 
 import { BiChevronDown } from "react-icons/bi";
 
 import classes from "./styles/ShopDrawer.module.css";
-import { useShopifyContext } from "@/app/context/store";
 
-export default function ShopDrawer() {
+type ShopDrawerProps = {
+  isDrawerOpen: boolean;
+  onClose: () => void;
+};
+
+export default function ShopDrawer({ isDrawerOpen, onClose }: ShopDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { collection, fetchAllCollections } = useShopifyContext();
@@ -16,19 +22,32 @@ export default function ShopDrawer() {
     fetchAllCollections();
   }, []);
 
+  const closeDrawerHandler = () => {
+    console.log("closeDrawerHandler called");
+    if (isOpen) {
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    }
+  };
+
+  const openDrawerHandler = () => setIsOpen(!isOpen);
+
   const collectionLinks =
     collection &&
     collection
       .map((col) => (
         <li key={col.id}>
-          <Link href={`/collections/${col.handle}`}>
+          <Link
+            href={`/collections/${col.handle}`}
+            onClick={closeDrawerHandler}
+          >
             {col.handle}
           </Link>
         </li>
       ))
       .reverse();
 
-  const openDrawerHandler = () => setIsOpen(!isOpen);
   return (
     <>
       <div className="flex flex-col">

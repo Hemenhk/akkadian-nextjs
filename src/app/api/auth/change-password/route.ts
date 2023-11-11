@@ -4,9 +4,9 @@ import { connectToDatabase } from "@/lib/db";
 import AdminAuth from "@/models/adminAuth";
 import { hashPassword, verifyPassword } from "@/lib/auth";
 
-export async function handler(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   try {
-    const session = await getServerSession({ req });
+    const session = await getServerSession();
     await connectToDatabase();
 
     if (!session) {
@@ -95,4 +95,3 @@ export async function handler(req: NextRequest) {
   }
 }
 
-export { handler as PATCH };

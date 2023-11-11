@@ -14,18 +14,24 @@ import {
 } from "@chakra-ui/react";
 import NavLinks from "./NavLinks";
 
-export default function SideNav() {
+type SideNavProps = {
+  isHovered: boolean
+  isHomePage: boolean
+}
+
+export default function SideNav({ isHovered, isHomePage }: SideNavProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-
   const btnRef = useRef<HTMLButtonElement>(null);
+
+  const colorValue = isHomePage ? `${isHovered ? "black" : "white"}` : !isHomePage && "black"
 
   return (
     <>
       <Button
         ref={btnRef}
         onClick={onOpen}
-        color={"black"}
+        color={colorValue}
         backgroundColor={"transparent"}
         cursor={"pointer"}
         _hover={{ backgroundColor: "transparent" }}

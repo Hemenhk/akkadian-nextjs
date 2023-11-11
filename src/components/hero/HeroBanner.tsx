@@ -1,22 +1,27 @@
 import Link from "next/link";
-import React from "react";
 
-import classes from "./styles/HeroBanner.module.css"
+import classes from "./styles/HeroBanner.module.css";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAdminValues } from "@/axios-instances/axios";
 
 export default function HeroBanner() {
+  const { data: adminValues } = useQuery({
+    queryKey: ["admin"],
+    queryFn: fetchAdminValues,
+  });
+
   return (
-    <div className={`flex flex-col justify-center pl-10 w-[60%] gap-5 ${classes.container}`}>
-      <h1 className="tracking-wider text-white text-2xl font-bold">
-        Style your hair with the sea!
+    <div
+      className={`flex flex-col justify-center pl-10 w-[60%] gap-5 ${classes.container}`}
+    >
+      <h1 className="tracking-wider text-white text-2xl lg:text-3xl font-bold">
+        {adminValues?.heroHeading}
       </h1>
-      <p className="tracking-wider font-medium text-[#dbdbdb] ">
-        Unlock incredible texture and a high hold with a matte finish, with our
-        sea salt spray!
+      <p className="tracking-wider font-medium text-[#dbdbdb] lg:text-lg ">
+        {adminValues?.heroSubHeading}
       </p>
       <Link href={"/product/sea-salt-spray"}>
-        <button className={classes.btn}>
-        View Product
-        </button>
+        <button className={classes.btn}>{adminValues?.heroButtonText}</button>
       </Link>
     </div>
   );
