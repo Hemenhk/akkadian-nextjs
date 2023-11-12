@@ -41,7 +41,7 @@ export const updateAdminValues = async (data: AdminValues) => {
 // REVIEWS
 
 export interface ReviewProps {
-  _id: string
+  _id: string;
   productHandle: string;
   author: string;
   rating: number;
@@ -74,14 +74,14 @@ export interface StatsDataProps {
   data: ReviewsStatsProps;
 }
 
-export const fetchAllReviews =async () => {
+export const fetchAllReviews = async () => {
   try {
-    const response = await axios.get<ReviewDataProps>("/api/reviews")
-    return response.data.data.reviews
+    const response = await axios.get<ReviewDataProps>("/api/reviews");
+    return response.data.data.reviews;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 export const fetchReviews = async (handle: string) => {
   try {
@@ -105,4 +105,11 @@ export const fetchReviewStats = async (handle: string) => {
   }
 };
 
-
+export const deleteSingleReview = async (id: string) => {
+  try {
+    const res = await axios.delete("/api/reviews", { data: { id } });
+    console.log("did work", res);
+  } catch (error) {
+    console.error("Error deleting review:", error);
+  }
+};
