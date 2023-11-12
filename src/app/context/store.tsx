@@ -1,6 +1,6 @@
 "use client";
 
-import { client, fetchProductMetafields } from "@/shopify/shopify-cred";
+import { client } from "@/shopify/shopify-cred";
 import {
   Dispatch,
   SetStateAction,
@@ -9,7 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Checkout, Collection, Metafield, Product } from "shopify-buy";
+import { Checkout } from "shopify-buy";
 
 type TShopifyContext = {
   checkout: Checkout;
@@ -18,8 +18,6 @@ type TShopifyContext = {
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
   createCheckout: () => Promise<void>;
   fetchCheckout: (checkoutId: string) => Promise<void>;
-  fetchProductWithHandle: (handle: string) => Promise<Product>;
-  fetchAllCollections: () => Promise<Collection[]>;
   addItemToCheckout: (variantId: string, quantity: number) => Promise<void>;
   updateLineItem: (lineItemId: string, quantity: number) => Promise<void>;
   removeLineItems: (lineItemsToRemove: string[]) => Promise<void>;
@@ -32,12 +30,6 @@ const ShopifyContext = createContext<TShopifyContext>({
   setIsCartOpen: () => false,
   createCheckout: async () => {},
   fetchCheckout: async (checkoutId: string) => {},
-  fetchProductWithHandle: async (handle: string) => {
-    return Promise.resolve(null);
-  },
-  fetchAllCollections: async () => {
-    return Promise.resolve(null);
-  },
   addItemToCheckout: async (variantId: string, quantity: number) => {},
   updateLineItem: async (lineItemId: string, quantity: number) => {},
   removeLineItems: async (lineItemsToRemove: string[]) => {},
@@ -66,8 +58,6 @@ export const ShopifyContextProvider = ({
     const checkout = await client.checkout.fetch(checkoutId);
     setCheckout(checkout);
   };
-
-  
 
   useEffect(() => {
     const checkoutId = localStorage.getItem("checkout_id");
@@ -117,28 +107,6 @@ export const ShopifyContextProvider = ({
     setCheckout(newCheckout);
   };
 
-  const fetchProductWithHandle = async (handle: string) => {
-    try {
-      const product = await client.product.fetchByHandle(handle);
-      const metafields = (await fetchProductMetafields(handle)) as Metafield[];
-      console.log("Product is fetched", product);
-      console.log("meta", metafields);
-      // setProduct({ ...product, metafields });
-      return { ...product, metafields };
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchAllCollections = async (): Promise<Collection[]> => {
-    try {
-      const collection = await client.collection.fetchAll();
-      return collection;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <ShopifyContext.Provider
       value={{
@@ -148,8 +116,6 @@ export const ShopifyContextProvider = ({
         fetchCheckout,
         setCheckout,
         setIsCartOpen,
-        fetchProductWithHandle,
-        fetchAllCollections,
         addItemToCheckout,
         updateLineItem,
         removeLineItems,

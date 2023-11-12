@@ -8,6 +8,7 @@ import { BiChevronDown } from "react-icons/bi";
 
 import classes from "./styles/ShopDrawer.module.css";
 import { useQuery } from "@tanstack/react-query";
+import { fetchAllCollections } from "@/shopify/shopify-req";
 
 type ShopDrawerProps = {
   isDrawerOpen: boolean;
@@ -17,7 +18,6 @@ type ShopDrawerProps = {
 export default function ShopDrawer({ isDrawerOpen, onClose }: ShopDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { fetchAllCollections } = useShopifyContext();
 
   const {data: collection} = useQuery({
     queryKey: ["collection"],

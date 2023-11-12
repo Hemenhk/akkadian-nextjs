@@ -41,6 +41,7 @@ export const updateAdminValues = async (data: AdminValues) => {
 // REVIEWS
 
 export interface ReviewProps {
+  _id: string
   productHandle: string;
   author: string;
   rating: number;
@@ -71,6 +72,15 @@ export interface ReviewsStatsProps {
 
 export interface StatsDataProps {
   data: ReviewsStatsProps;
+}
+
+export const fetchAllReviews =async () => {
+  try {
+    const response = await axios.get<ReviewDataProps>("/api/reviews")
+    return response.data.data.reviews
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const fetchReviews = async (handle: string) => {

@@ -12,22 +12,21 @@ import TheAccordion from "@/components/single-product/accordion/Accordion";
 import TheButton from "@/components/ui/TheButton";
 import AverageRating from "./review/AverageRating";
 import { useQuery } from "@tanstack/react-query";
+import { fetchProductWithHandle } from "@/shopify/shopify-req";
 
 type Props = {
   params: { productHandle: string };
 };
 
 export default function SingleProduct({ params }: Props) {
-  const {
-    fetchProductWithHandle,
-    addItemToCheckout,
-  } = useShopifyContext();
+  const { addItemToCheckout } = useShopifyContext();
   const [selectedVariantId, setSelectedVariantId] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const { productHandle } = params;
 
   const { data: product } = useQuery({
     queryKey: ["single-product"],
-    queryFn: () => fetchProductWithHandle(params.productHandle),
+    queryFn: () => fetchProductWithHandle(productHandle),
   });
 
   useEffect(() => {
@@ -102,8 +101,13 @@ export default function SingleProduct({ params }: Props) {
             onClick={selectedVariantId ? addItemToCartHandler : undefined}
             disabled={!product.availableForSale || !selectedVariantId}
           />
-          <p className="text-sm tracking-wide leading-6 lg:text-left" dangerouslySetInnerHTML={replaceLineBreaks(product?.descriptionHtml)} />
-            
+          <p
+            className="text-sm tracking-wide leading-6 lg:text-left"
+            dangerouslySetInnerHTML={replaceLineBreaks(
+              product?.descriptionHtml
+            )}
+          />
+
           <div className="flex w-[300px] lg:hidden">
             <TheAccordion
               productHandle={params.productHandle}
