@@ -16,14 +16,17 @@ export default function ReviewAccordion({
 
   const { data: reviewData } = useQuery({
     queryKey: ["reviews"],
-    queryFn: () => fetchReviews(itemHandle)
+    queryFn: () => fetchReviews(itemHandle),
   });
 
   // console.log("review data", reviewData);
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = reviewData?.slice(indexOfFirstReview, indexOfLastReview);
+  const currentReviews = reviewData?.slice(
+    indexOfFirstReview,
+    indexOfLastReview
+  );
 
   const loadMoreReviewsHandler = () => {
     setCurrentPage((prevState) => prevState + 1);
