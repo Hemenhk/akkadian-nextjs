@@ -117,7 +117,9 @@ export const deleteSingleReview = async (id: string) => {
 
 export const updateSingleReview = async (id: string, isVerified: boolean) => {
   try {
-    const res = await axios.patch<ReviewProps>("/api/reviews", { data: { id, isVerified } });
+    const res = await axios.patch<ReviewProps>("/api/reviews", {
+      data: { id, isVerified },
+    });
     console.log("verified", res);
     return res.data;
   } catch (error) {
