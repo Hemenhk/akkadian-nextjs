@@ -13,6 +13,7 @@ import TheButton from "@/components/ui/TheButton";
 import AverageRating from "./review/AverageRating";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductWithHandle } from "@/shopify/shopify-req";
+import FeaturedReview from "./review/FeaturedReview";
 
 type Props = {
   params: { productHandle: string };
@@ -48,7 +49,7 @@ export default function SingleProduct({ params }: Props) {
     }
   };
 
-  const replaceLineBreaks = (htmlString) => {
+  const replaceLineBreaks = (htmlString: string) => {
     return { __html: htmlString?.replace(/<br\s*\/?>/g, "<br />") };
   };
 
@@ -61,7 +62,7 @@ export default function SingleProduct({ params }: Props) {
   }
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center gap-10 p-[5rem] bg-[#fafafa] w-screen">
-      <div className="flex  flex-col gap-10">
+      <div className="flex flex-col gap-10">
         <div className="flex flex-col">
           <ProductImage
             images={product?.images}
@@ -76,9 +77,16 @@ export default function SingleProduct({ params }: Props) {
         </div>
       </div>
       <div className="flex flex-col relative items-center lg:items-start lg:left-[50px] lg:w-[400px] gap-10">
-        <div className="flex flex-col items-start gap-5">
-          <p className="text-xl tracking-wide uppercase">{product?.title}</p>
-          <AverageRating itemHandle={params.productHandle} />
+        <div className="flex flex-col justify-center items-start gap-5">
+          <p className="mx-auto lg:mx-0 text-xl tracking-wide uppercase">
+            {product?.title}
+          </p>
+          <div className="mx-auto lg:mx-0">
+            <AverageRating itemHandle={params.productHandle} />
+          </div>
+          <div>
+            <FeaturedReview itemHandle={params.productHandle} />
+          </div>
           <div className="flex items-center justify-start gap-5 w-full border-b pb-5">
             <ProductPrice product={product} />
           </div>
@@ -102,7 +110,7 @@ export default function SingleProduct({ params }: Props) {
             disabled={!product.availableForSale || !selectedVariantId}
           />
           <p
-            className="text-sm tracking-wide leading-6 lg:text-left"
+            className="text-sm tracking-wide leading-6 text-center lg:text-left"
             dangerouslySetInnerHTML={replaceLineBreaks(
               product?.descriptionHtml
             )}

@@ -2,6 +2,7 @@ import mongoose, { Document, Model } from "mongoose";
 
 export interface ReviewDocument extends Document {
   productHandle: string;
+  isVerified: boolean;
   review: string;
   rating: number;
 }
@@ -39,6 +40,10 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, "A review must have an author"],
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     createdAt: {
       type: String,
       default: () => {
@@ -66,7 +71,7 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.statics.calculateReviewStats = async function (
-  productHandle: string
+  productHandle: string,
 ) {
   const stats = await this.aggregate([
     {
@@ -80,6 +85,8 @@ reviewSchema.statics.calculateReviewStats = async function (
       },
     },
   ]);
+
+  console.log("Aggregation Pipeline Stats:", stats);
 
   if (stats.length > 0) {
     return stats[0];

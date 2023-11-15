@@ -16,14 +16,11 @@ export default function ReviewAccordion({
 
   const { data: reviewData } = useQuery({
     queryKey: ["reviews"],
-    queryFn: () => fetchReviews(itemHandle)
+    queryFn: () => fetchReviews(itemHandle),
   });
-
-  // console.log("review data", reviewData);
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
-  const currentReviews = reviewData?.slice(indexOfFirstReview, indexOfLastReview);
 
   const loadMoreReviewsHandler = () => {
     setCurrentPage((prevState) => prevState + 1);
@@ -31,6 +28,11 @@ export default function ReviewAccordion({
   const loadPreviousReviewsHandler = () => {
     setCurrentPage((prevState) => prevState - 1);
   };
+
+  const currentReviews = reviewData?.slice(
+    indexOfFirstReview,
+    indexOfLastReview
+  );
 
   const renderedReviews =
     reviewData?.length > 0 ? (
@@ -51,6 +53,11 @@ export default function ReviewAccordion({
                 <p className="text-sm font-light">{review.createdAt}</p>
               </div>
               <div className="flex">
+                {review?.isVerified ? (
+                  <p className="flex items-center bg-black text-white text-xs tracking-wider mr-3 px-3">Verified</p>
+                ) : (
+                  ""
+                )}
                 <p className="font-bold">{review.author}</p>
               </div>
             </div>
@@ -64,6 +71,7 @@ export default function ReviewAccordion({
     ) : (
       <p>No reviews available for this product.</p>
     );
+
   return (
     <>
       {renderedReviews}
