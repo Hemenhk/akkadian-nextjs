@@ -38,12 +38,12 @@ export default function FilteredReviews({ reviews, selectedProduct }: Props) {
                 {review?.author?.charAt(0).toUpperCase() +
                   review?.author?.slice(1)}
               </p>
-              <DeleteReview id={review._id} />
+              <DeleteReview id={review._id} isVerified={review?.isVerified}/>
             </div>
             <div className="flex flex-col gap-2 ml-1 pb-3">
               <p className="font-bold">{review?.title}</p>
               <p className="text-sm">{review?.review}</p>
-            </div>{" "}
+            </div>
           </div>
         </li>
       ));

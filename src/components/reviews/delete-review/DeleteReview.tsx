@@ -13,9 +13,19 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { BsTrash } from "react-icons/bs";
 import { Button } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteSingleReview, updateSingleReview } from "@/axios-instances/axios";
+import {
+  ReviewProps,
+  deleteSingleReview,
+  updateSingleReview,
+} from "@/axios-instances/axios";
 
-export default function DeleteReview({ id, isVerified }: { id: string, isVerified: boolean }) {
+export default function DeleteReview({
+  id,
+  isVerified,
+}: {
+  id: string;
+  isVerified: boolean;
+}) {
   const queryClient = useQueryClient();
 
   const { mutateAsync: deleteReviewMutation } = useMutation({
@@ -30,8 +40,10 @@ export default function DeleteReview({ id, isVerified }: { id: string, isVerifie
 
   const { mutateAsync: verifyReviewMutation } = useMutation({
     mutationKey: ["reviews"],
-    mutationFn: async (isVerified: boolean) => {
-      await updateSingleReview(id, isVerified);
+    mutationFn: async () => {
+      const verifyReview = !isVerified;
+      const updatedReview = await updateSingleReview(id, verifyReview);
+      return verifyReview;
     },
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ["reviews"] });
@@ -48,8 +60,13 @@ export default function DeleteReview({ id, isVerified }: { id: string, isVerifie
   };
 
   const verifyReviewHandler = async () => {
-    await verifyReviewMutation(true)
-  }
+    try {
+      const res = await verifyReviewMutation();
+      console.log("verify", res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
