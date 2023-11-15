@@ -42,11 +42,15 @@ export async function PATCH(req: NextRequest) {
     await connectToDatabase();
 
     const reqBody = await req.json();
-    const { isVerified, id } = reqBody;
 
+    console.log("Request Body:", reqBody);
+    const { data } = reqBody;
+    const { isVerified, id } = data;
+
+    console.log("isVerified value:", isVerified);
     const updatedReview = await ProductReview.findByIdAndUpdate(
       id,
-      { isVerified },
+      { isVerified: isVerified },
       {
         new: true,
         runValidators: true,
