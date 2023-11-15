@@ -47,6 +47,7 @@ export interface ReviewProps {
   rating: number;
   review: string;
   title: string;
+  isVerified: boolean
   createdAt: string;
   id: string;
 }

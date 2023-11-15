@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/lib/db";
-import ProductReview, { ReviewDocument } from "@/models/reviewSchema";
-import { NextApiRequest } from "next";
+import ProductReview from "@/models/reviewSchema";
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,6 +46,7 @@ export async function GET(req: NextRequest) {
     const productHandles = [
       ...new Set(fetchedReviews.map((review) => review.productHandle)),
     ];
+
     const reviewStats = await Promise.all(
       productHandles.map(async (productHandle) => {
         const stats = await ProductReview.calculateReviewStats(productHandle);

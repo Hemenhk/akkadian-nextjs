@@ -8,7 +8,11 @@ import {
 import ReviewAccordion from "../review/ReviewAccordion";
 import ReviewForm from "../review/ReviewForm";
 import { useQuery } from "@tanstack/react-query";
-import { fetchReviewStats,  } from "@/axios-instances/axios";
+import {
+  ReviewProps,
+  fetchReviewStats,
+  fetchReviews,
+} from "@/axios-instances/axios";
 
 type AccordionProps = {
   productHandle: string;
@@ -19,12 +23,11 @@ export default function TheAccordion({
   metafields,
   productHandle,
 }: AccordionProps) {
-
   const [totalReviews, setTotalReviews] = useState(0);
 
   const { data: filteredReviewsStats } = useQuery({
     queryKey: ["reviews-stats"],
-    queryFn: () => fetchReviewStats(productHandle)
+    queryFn: () => fetchReviewStats(productHandle),
   });
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function TheAccordion({
           {mappedMetafields}
           <AccordionItem value="Reviews">
             <AccordionTrigger className="uppercase text-sm tracking-widest leading-6 font-light">
-              Reviews ({totalReviews})
+              Reviews ({ totalReviews })
             </AccordionTrigger>
             <AccordionContent className="whitespace-break-spaces">
               <div className="pb-10">
