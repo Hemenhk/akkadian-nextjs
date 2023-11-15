@@ -47,7 +47,7 @@ export interface ReviewProps {
   rating: number;
   review: string;
   title: string;
-  isVerified: boolean
+  isVerified: boolean;
   createdAt: string;
   id: string;
 }
@@ -110,6 +110,16 @@ export const deleteSingleReview = async (id: string) => {
   try {
     const res = await axios.delete("/api/reviews", { data: { id } });
     console.log("did work", res);
+  } catch (error) {
+    console.error("Error deleting review:", error);
+  }
+};
+
+export const updateSingleReview = async (id: string, isVerified: boolean) => {
+  try {
+    const res = await axios.patch<ReviewProps>("/api/reviews", { data: { id, isVerified } });
+    console.log("verified", res);
+    return res.data;
   } catch (error) {
     console.error("Error deleting review:", error);
   }

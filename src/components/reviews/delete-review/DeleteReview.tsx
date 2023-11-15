@@ -3,6 +3,7 @@ import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -12,15 +13,25 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { BsTrash } from "react-icons/bs";
 import { Button } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteSingleReview } from "@/axios-instances/axios";
+import { deleteSingleReview, updateSingleReview } from "@/axios-instances/axios";
 
-export default function DeleteReview({ id }: { id: string }) {
+export default function DeleteReview({ id, isVerified }: { id: string, isVerified: boolean }) {
   const queryClient = useQueryClient();
 
   const { mutateAsync: deleteReviewMutation } = useMutation({
     mutationKey: ["reviews"],
     mutationFn: async () => {
       await deleteSingleReview(id);
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ["reviews"] });
+    },
+  });
+
+  const { mutateAsync: verifyReviewMutation } = useMutation({
+    mutationKey: ["reviews"],
+    mutationFn: async (isVerified: boolean) => {
+      await updateSingleReview(id, isVerified);
     },
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: ["reviews"] });
@@ -36,6 +47,10 @@ export default function DeleteReview({ id }: { id: string }) {
     }
   };
 
+  const verifyReviewHandler = async () => {
+    await verifyReviewMutation(true)
+  }
+
   return (
     <div>
       <DropdownMenu>
@@ -46,9 +61,14 @@ export default function DeleteReview({ id }: { id: string }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>
-            <div onClick={handleDelete}>
-              <BsTrash />
-            </div>
+            <DropdownMenuItem>
+              <Button onClick={verifyReviewHandler}>Verify</Button>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <div onClick={handleDelete}>
+                <BsTrash />
+              </div>
+            </DropdownMenuItem>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
         </DropdownMenuContent>
