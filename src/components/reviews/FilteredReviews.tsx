@@ -1,6 +1,6 @@
 import { ReviewProps } from "@/axios-instances/axios";
 import React from "react";
-import DeleteReview from "./delete-review/DeleteReview";
+import DeleteReview from "./edit-review/DeleteReview";
 import { Rating } from "@mui/material";
 
 type Props = {
