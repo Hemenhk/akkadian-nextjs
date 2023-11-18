@@ -15,14 +15,20 @@ import {
 import { useState } from "react";
 import FilteredReviews from "./FilteredReviews";
 import EditReview from "./edit-review/EditReview";
+import { useRouter } from "next/navigation";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
 export default function ReviewAdmin() {
   const { data: reviews } = useQuery({
     queryKey: ["reviews"],
     queryFn: fetchAllReviews,
   });
-
+  const router = useRouter()
   const [selectedProduct, setSelectedProduct] = useState("all");
+
+  const goBackHandler = () => {
+    router.push("/admin");
+  };
 
   const handleProductSelect = (value: any) => {
     setSelectedProduct(value);
@@ -91,10 +97,21 @@ export default function ReviewAdmin() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full pb-80 pt-10 gap-3">
-      <h1 className="pb-10">Edit Reviews</h1>
-      {selectProduct}
+     <div className="flex flex-row justify-between border-b px-5 pb-4 w-full">
+        <div className="pl-4 text-gray-800 transition ease-out duration-300 hover:text-gray-600">
+          <BsFillArrowLeftCircleFill
+            size={30}
+            cursor={"pointer"}
+            onClick={goBackHandler}
+          />
+        </div>
+        <h1 className="tracking-wide uppercase text-base lg:text-xl lg:pl-32">
+          Edit Reviews
+        </h1>{selectProduct}
+      </div>
+      
 
-      <ul className="flex flex-wrap items-center justify-center gap-5 w-[70%]">
+      <ul className="flex flex-wrap items-center justify-center gap-5 pt-12 w-[70%]">
         {selectedProduct !== "all" ? (
           <FilteredReviews
             reviews={reviews}
