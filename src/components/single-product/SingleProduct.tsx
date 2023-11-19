@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useShopifyContext } from "@/app/context/store";
+import { fetchProductWithHandle } from "@/shopify/shopify-req";
 
 import ProductPrice from "@/components/single-product/price/ProductPrice";
 import ProductImage from "@/components/single-product/images/ProductImage";
@@ -12,15 +14,20 @@ import TheButton from "@/components/ui/TheButton";
 import AverageRating from "./review/AverageRating";
 import FeaturedReview from "./review/FeaturedReview";
 
+type Props = {
+  params: { productHandle: string };
+};
 
-
-export default function SingleProduct({ product, productHandle }) {
+export default function SingleProduct({ params }: Props) {
   const { addItemToCheckout } = useShopifyContext();
   const [selectedVariantId, setSelectedVariantId] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const { productHandle } = params;
 
- 
-  console.log(product);
+  const { data: product } = useQuery({
+    queryKey: ["single-product"],
+    queryFn: () => fetchProductWithHandle(productHandle),
+  });
 
   useEffect(() => {
     if (product?.variants && product.variants.length === 1) {
@@ -60,7 +67,7 @@ export default function SingleProduct({ product, productHandle }) {
           />
           <div className="mt-[100px] hidden lg:flex">
             <TheAccordion
-              productHandle={productHandle}
+              productHandle={params.productHandle}
               metafields={product.metafields}
             />
           </div>
@@ -72,10 +79,10 @@ export default function SingleProduct({ product, productHandle }) {
             {product?.title}
           </p>
           <div className="mx-auto lg:mx-0">
-            <AverageRating itemHandle={productHandle} />
+            <AverageRating itemHandle={params.productHandle} />
           </div>
           <div>
-            <FeaturedReview itemHandle={productHandle} />
+            <FeaturedReview itemHandle={params.productHandle} />
           </div>
           <div className="flex items-center justify-start gap-5 w-full border-b pb-5">
             <ProductPrice product={product} />
@@ -107,7 +114,7 @@ export default function SingleProduct({ product, productHandle }) {
           />
           <div className="flex w-[300px] lg:hidden">
             <TheAccordion
-              productHandle={productHandle}
+              productHandle={params.productHandle}
               metafields={product.metafields}
             />
           </div>
