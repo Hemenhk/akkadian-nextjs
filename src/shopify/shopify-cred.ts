@@ -61,6 +61,78 @@ export const fetchProductMetafields = async (productHandle: string) => {
   }
 };
 
+export const fetchProductVideos = async (productHandle: string) => {
+  const endpoint = `https://${shopifyDomain}/api/2023-10/graphql.json`;
+
+  const query = `
+  query getProductVideos($handle: String!) {
+    productByHandle(handle: $handle) {
+      title
+    media(first:5) {
+      edges {
+        node {
+          previewImage {
+            originalSrc
+          }
+          mediaContentType
+          alt
+          ... fieldsForMediaTypes
+        }
+      }
+    }
+    }
+  }
+  
+  fragment fieldsForMediaTypes on Media {
+    alt
+    mediaContentType
+    ... on Video {
+      id
+      sources {
+        format
+        height
+        mimeType
+        url
+        width
+      }
+    }
+    ... on ExternalVideo {
+      id
+      host
+      embeddedUrl
+    }
+    ... on Model3d {
+      sources {
+        format
+        mimeType
+        url
+      }
+    }
+  }
+  `;
+
+  const variables = {
+    handle: productHandle,
+  };
+
+  const client = new GraphQLClient(endpoint, {
+    headers: {
+      "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
+    },
+  });
+
+  try {
+    const data: any = await client.request(query, variables);
+
+    const product = data.productByHandle;
+
+    console.log(product);
+    return product;
+  } catch (error) {
+    console.error("Network Error:", error);
+  }
+};
+
 if (storefrontAccessToken === undefined) {
   throw new Error("SHOPIFY_STOREFRONT_ACCESS_TOKEN is not defined");
 }

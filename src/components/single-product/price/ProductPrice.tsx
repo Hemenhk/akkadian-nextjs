@@ -21,7 +21,7 @@ export default function ProductPrice({ product }: PriceProps) {
   const comparePrice =
     product.variants && product?.variants[0]?.compareAtPrice ? (
       <>
-        <p className="text-red-700">
+        <p className="text-red-700 text-2xl font-semibold">
           {product?.variants[0]?.price?.amount}{" "}
           {product?.variants[0]?.price?.currencyCode}
         </p>

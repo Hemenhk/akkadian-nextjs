@@ -43,11 +43,9 @@ export async function PATCH(req: NextRequest) {
 
     const reqBody = await req.json();
 
-    console.log("Request Body:", reqBody);
     const { data } = reqBody;
     const { isVerified, id } = data;
 
-    console.log("isVerified value:", isVerified);
     const updatedReview = await ProductReview.findByIdAndUpdate(
       id,
       { isVerified: isVerified },
@@ -119,7 +117,6 @@ export async function DELETE(req: NextRequest) {
     await connectToDatabase();
 
     const { id } = await req.json();
-    console.log("Received id:", id);
     const deletedReview = await ProductReview.findByIdAndDelete(id);
 
     if (!deletedReview) {

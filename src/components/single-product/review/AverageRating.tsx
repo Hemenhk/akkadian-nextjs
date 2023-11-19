@@ -14,8 +14,6 @@ export default function AverageRating({ itemHandle }: { itemHandle: string }) {
     queryFn: () => fetchReviewStats(itemHandle),
   });
 
-  console.log("stats", filteredReviewsStats);
-
   useEffect(() => {
     if (filteredReviewsStats?.length > 0) {
       const stats = filteredReviewsStats[0].stats;

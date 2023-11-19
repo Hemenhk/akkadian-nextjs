@@ -1,12 +1,11 @@
-import { client, fetchProductMetafields } from "./shopify-cred";
+import { client, fetchProductMetafields, fetchProductVideos } from "./shopify-cred";
 
 export const fetchProductWithHandle = async (handle: string) => {
   try {
     const product = await client.product.fetchByHandle(handle);
     const metafields = await fetchProductMetafields(handle);
-    console.log(product);
-
-    return { ...product, metafields };
+    const vidoes = await fetchProductVideos(handle)
+    return { ...product, metafields, vidoes };
   } catch (error) {
     console.log(error);
   }

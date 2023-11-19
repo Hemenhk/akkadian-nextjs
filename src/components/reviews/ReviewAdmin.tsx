@@ -23,7 +23,7 @@ export default function ReviewAdmin() {
     queryKey: ["reviews"],
     queryFn: fetchAllReviews,
   });
-  const router = useRouter()
+  const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState("all");
 
   const goBackHandler = () => {
@@ -34,6 +34,10 @@ export default function ReviewAdmin() {
     setSelectedProduct(value);
   };
 
+  console.log("reviews admin", reviews);
+
+  const uniqueProductHandles = new Set();
+
   const selectProduct = (
     <>
       <Select onValueChange={handleProductSelect} defaultValue="all">
@@ -42,11 +46,18 @@ export default function ReviewAdmin() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All</SelectItem>
-          {reviews?.map((item: ReviewProps) => (
-            <SelectItem key={item?._id} value={item?.productHandle}>
-              {item?.productHandle}
-            </SelectItem>
-          ))}
+          {reviews?.map((item: ReviewProps) => {
+            if (!uniqueProductHandles.has(item?.productHandle)) {
+              uniqueProductHandles.add(item?.productHandle);
+
+              return (
+                <SelectItem key={item?._id} value={item?.productHandle}>
+                  {item?.productHandle}
+                </SelectItem>
+              );
+            }
+            return null;
+          })}
         </SelectContent>
       </Select>
     </>
@@ -97,7 +108,7 @@ export default function ReviewAdmin() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full pb-80 pt-10 gap-3">
-     <div className="flex flex-row justify-between border-b px-5 pb-4 w-full">
+      <div className="flex flex-row justify-between border-b px-5 pb-4 w-full">
         <div className="pl-4 text-gray-800 transition ease-out duration-300 hover:text-gray-600">
           <BsFillArrowLeftCircleFill
             size={30}
@@ -107,9 +118,9 @@ export default function ReviewAdmin() {
         </div>
         <h1 className="tracking-wide uppercase text-base lg:text-xl lg:pl-32">
           Edit Reviews
-        </h1>{selectProduct}
+        </h1>
+        {selectProduct}
       </div>
-      
 
       <ul className="flex flex-wrap items-center justify-center gap-5 pt-12 w-[70%]">
         {selectedProduct !== "all" ? (
