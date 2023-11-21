@@ -9,6 +9,11 @@ import TheButton from "@/components/ui/TheButton";
 
 export default function CartTotal() {
   const { checkout } = useShopifyContext();
+
+  if (checkout === null){
+    <p>no checkout created!</p>
+  }
+
   const { totalPrice } = checkout;
   return (
     <>

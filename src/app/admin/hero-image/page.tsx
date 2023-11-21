@@ -76,7 +76,7 @@ export default function UploadForm() {
         <input
           type="file"
           name="file"
-          accept="image/png, image/jpeg, image/jpg"
+          accept="image/png, image/jpeg, image/jpg, image/webp"
           onChange={(e) => setFile(e.target.files?.[0])}
         />
         <button

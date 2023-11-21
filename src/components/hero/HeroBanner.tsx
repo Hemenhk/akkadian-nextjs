@@ -14,7 +14,7 @@ export default function HeroBanner() {
     <div
       className={`flex flex-col justify-center pl-10 w-[60%] gap-5 ${classes.container}`}
     >
-      <h1 className="tracking-wider text-white text-2xl lg:text-3xl font-bold">
+      <h1 className="tracking-wider text-white uppercase text-2xl lg:text-3xl font-bold">
         {adminValues?.heroHeading}
       </h1>
       <p className="tracking-wider font-medium text-[#dbdbdb] lg:text-lg ">

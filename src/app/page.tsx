@@ -32,7 +32,7 @@ export default function Home() {
           <HeroBanner />
         </div>
       </div>
-      <FeaturedCollection handle="hair" />
+      <FeaturedCollection handle="alla" />
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function MainNav() {
     <>
       <SideNav isHovered={isHovered} isHomePage={isHomePage} />
       <Link href={"/"}>
-        <Image src={logoValue?.logo} alt="logo" width={50} height={50} />
+        <Image src={logoValue?.logo} alt="logo" width={75} height={75} />
       </Link>
       <TheButton label="sign out" onClick={signOutHandler} width="w-[150px]" />
     </>
@@ -42,7 +42,7 @@ export default function MainNav() {
     <>
       <SideNav isHovered={isHovered} isHomePage={isHomePage} />
       <Link href={"/"}>
-        <Image src={logoValue?.logo} alt="logo" width={50} height={50} />
+        <Image src={logoValue?.logo} alt="logo" width={120} height={120} />
       </Link>
       <CartIcon isHovered={isHovered} isHomePage={isHomePage} />
     </>

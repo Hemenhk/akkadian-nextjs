@@ -7,7 +7,7 @@ const storefrontAccessToken = process.env
 const apiVersion = "2023-10";
 
 export const fetchProductMetafields = async (productHandle: string) => {
-  const endpoint = `https://${shopifyDomain}/api/2023-10/graphql.json`;
+  const endpoint = `https://${shopifyDomain}/api/${apiVersion}/graphql.json`;
 
   const query = `
       query getProductMetafields($handle: String!) {
@@ -126,7 +126,6 @@ export const fetchProductVideos = async (productHandle: string) => {
 
     const product = data.productByHandle;
 
-    console.log(product);
     return product;
   } catch (error) {
     console.error("Network Error:", error);
@@ -140,10 +139,8 @@ if (storefrontAccessToken === undefined) {
 if (shopifyDomain === undefined) {
   throw new Error("SHOPIFY_DOMAIN is not defined");
 }
-
 export const client = Client.buildClient({
   domain: shopifyDomain,
   storefrontAccessToken,
   apiVersion,
-  language: "en",
 });

@@ -27,6 +27,7 @@ export const fetchCollectionWithHandle = async (handle: string) => {
 export const fetchAllCollections = async () => {
   try {
     const collection = await client.collection.fetchAll();
+    console.log("collections", collection)
     return collection;
   } catch (error) {
     console.log(error);

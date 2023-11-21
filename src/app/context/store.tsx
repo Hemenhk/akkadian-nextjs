@@ -46,8 +46,7 @@ export const ShopifyContextProvider = ({
   const createCheckout = async () => {
     try {
       const checkout = await client.checkout.create();
-      // console.log("Checkout Created in english!", checkout);
-      localStorage.setItem("checkout_id", checkout.id);
+      localStorage.setItem("jawline_checkout_id", checkout.id);
       setCheckout(checkout);
     } catch (error) {
       console.error("Error creating checkout:", error);
@@ -60,7 +59,7 @@ export const ShopifyContextProvider = ({
   };
 
   useEffect(() => {
-    const checkoutId = localStorage.getItem("checkout_id");
+    const checkoutId = localStorage.getItem("jawline_checkout_id");
     const completedOrder = checkout?.completedAt;
 
     if (completedOrder) {
