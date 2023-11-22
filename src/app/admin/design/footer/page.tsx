@@ -57,7 +57,7 @@ export default function FooterPage() {
   });
 
   const goBackHandler = () => {
-    router.push("/admin");
+    router.push("/admin/design");
   };
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {

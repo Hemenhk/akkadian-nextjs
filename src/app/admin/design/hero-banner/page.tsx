@@ -63,7 +63,7 @@ export default function HeroPage() {
   });
 
   const goBackHandler = () => {
-    router.push("/admin");
+    router.push("/admin/design");
   };
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {

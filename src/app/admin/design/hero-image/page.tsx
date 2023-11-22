@@ -16,7 +16,7 @@ export default function UploadForm() {
   const router = useRouter();
 
   const goBackHandler = () => {
-    router.push("/admin");
+    router.push("/admin/design");
   };
 
   const { mutateAsync: updateHeroImage, isPending } = useMutation({

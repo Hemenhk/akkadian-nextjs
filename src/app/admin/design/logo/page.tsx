@@ -17,7 +17,7 @@ export default function LogoUploadForm() {
   const router = useRouter();
 
   const goBackHandler = () => {
-    router.push("/admin");
+    router.push("/admin/design");
   };
 
   const { mutateAsync: updateLogo } = useMutation({
