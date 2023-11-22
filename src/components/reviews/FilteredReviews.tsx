@@ -17,35 +17,44 @@ export default function FilteredReviews({ reviews, selectedProduct }: Props) {
       )
       .map((review: ReviewProps) => (
         <li
-          key={review?._id}
-          className="flex gap-4 justify-start items-center pl-4 bg-gray-200 rounded-sm w-[500px] py-2"
-        >
-          <div className="flex items-center justify-center uppercase rounded-[50%] bg-[#000] text-white w-[70px] h-[70px]">
-            <p className="text-2xl">{review?.author?.charAt(0)}</p>
+        key={review.id}
+        className="flex flex-col mb-5 pl-5 py-4 w-[450px] bg-slate-200"
+      >
+        <div className="flex gap-3">
+          <div className="flex items-center justify-center uppercase rounded-[50%] bg-[#000] text-white w-12 h-12 ">
+            {review?.author?.charAt(0)}
           </div>
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-row justify-between items-center gap-12">
-              <div className="flex flex-row items-center gap-2">
-                <Rating
-                  value={review?.rating}
-                  readOnly
-                  size="small"
-                  style={{ color: "rgb(14, 14, 14)" }}
-                />
-                <p className="text-sm">{review?.createdAt}</p>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-1">
+              <Rating
+                value={review.rating}
+                readOnly
+                size="small"
+                style={{ color: "rgb(14, 14, 14)" }}
+              />
+              <p className="text-sm font-light">{review.createdAt}</p>
+              <div className="relative left-36 ">
               </div>
-              <p className="font-bold pr-1">
-                {review?.author?.charAt(0).toUpperCase() +
-                  review?.author?.slice(1)}
-              </p>
-              <DeleteReview id={review._id} isVerified={review?.isVerified}/>
             </div>
-            <div className="flex flex-col gap-2 ml-1 pb-3">
-              <p className="font-bold">{review?.title}</p>
-              <p className="text-sm">{review?.review}</p>
+            <div className="flex">
+              {review?.isVerified ? (
+                <p className="flex items-center bg-black text-white text-xs tracking-wider mr-3 px-3">
+                  Verified
+                </p>
+              ) : (
+                ""
+              )}
+              <p className="font-bold">{review.author}</p>
             </div>
           </div>
-        </li>
+        </div>
+        <div className="flex flex-col ml-1 mt-2">
+          <p className="font-bold">{review.title}</p>
+          <p className="text-sm">{review.review}</p>
+        </div>
+      </li>
       ));
-  return <div>{filteredReviews}</div>;
+
+      console.log("filtered reviews", filteredReviews)
+  return <>{filteredReviews}</>;
 }

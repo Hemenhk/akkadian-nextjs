@@ -11,7 +11,7 @@ type ImageProps = {
   available: boolean;
 };
 
-export default function ProductImage({ images, available }: ImageProps) {
+export default function ProductImage({ images }: ImageProps) {
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
 
   const nextImage = () => {

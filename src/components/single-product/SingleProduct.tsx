@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
+import { useQuery } from "@tanstack/react-query";
 import { useShopifyContext } from "@/app/context/store";
+import { fetchProductWithHandle } from "@/shopify/shopify-req";
 
 import ProductPrice from "@/components/single-product/price/ProductPrice";
 import ProductImage from "@/components/single-product/images/ProductImage";
@@ -11,8 +12,6 @@ import QuantitySelector from "@/components/single-product/quantity-selector/Quan
 import TheAccordion from "@/components/single-product/accordion/Accordion";
 import TheButton from "@/components/ui/TheButton";
 import AverageRating from "./review/AverageRating";
-import { useQuery } from "@tanstack/react-query";
-import { fetchProductWithHandle } from "@/shopify/shopify-req";
 import FeaturedReview from "./review/FeaturedReview";
 
 type Props = {
@@ -35,8 +34,6 @@ export default function SingleProduct({ params }: Props) {
       setSelectedVariantId(product?.variants[0]?.id);
     }
   }, [product]);
-
-  console.log("product", product);
 
   const addItemToCartHandler = () => {
     console.log("addItemToCartHandler called");
@@ -115,7 +112,6 @@ export default function SingleProduct({ params }: Props) {
               product?.descriptionHtml
             )}
           />
-
           <div className="flex w-[300px] lg:hidden">
             <TheAccordion
               productHandle={params.productHandle}

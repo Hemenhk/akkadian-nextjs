@@ -1,21 +1,9 @@
 import React from "react";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-import { SlOptionsVertical } from "react-icons/sl";
 import { BsTrash } from "react-icons/bs";
-import { Button } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   deleteSingleReview,
-  updateSingleReview,
 } from "@/axios-instances/axios";
 
 export default function DeleteReview({ id }: { id: string }) {

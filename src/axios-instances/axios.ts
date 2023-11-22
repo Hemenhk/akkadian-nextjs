@@ -23,7 +23,6 @@ export const fetchAdminValues = async () => {
     const response = await axios.get<DashboardValues>(
       "/api/auth/admin-dashboard"
     );
-    console.log("axios", response);
     return response.data.dashboardValues[0];
   } catch (error) {
     console.log(error);
@@ -75,6 +74,14 @@ export interface StatsDataProps {
   data: ReviewsStatsProps;
 }
 
+export interface CreateReviewProps {
+  rating: 0;
+  review: string;
+  title: string;
+  author: string;
+  productHandle: string;
+}
+
 export const fetchAllReviews = async () => {
   try {
     const response = await axios.get<ReviewDataProps>("/api/reviews");
@@ -95,14 +102,21 @@ export const fetchReviews = async (handle: string) => {
   }
 };
 
-export const fetchReviewStats = async (handle: string) => {
+export const postReview = async (data: CreateReviewProps) => {
   try {
-    const response = await axios.get(`/api/reviews`);
-    return response.data.data.reviewStats.filter(
-      (review: AverageRatingProps) => review.productHandle === handle
-    );
+    await axios.post<CreateReviewProps>(" /api/reviews", data);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateSingleReview = async (id: string, isVerified: boolean) => {
+  try {
+    const res = await axios.patch(`/api/reviews`, { data: { id, isVerified } });
+    console.log("verifying", res);
+    return res;
+  } catch (error) {
+    console.error("Error deleting review:", error);
   }
 };
 
@@ -115,12 +129,13 @@ export const deleteSingleReview = async (id: string) => {
   }
 };
 
-export const updateSingleReview = async (id: string, isVerified: boolean) => {
+export const fetchReviewStats = async (handle: string) => {
   try {
-    const res = await axios.patch(`/api/reviews`, { data: { id, isVerified } });
-    console.log("verifying", res);
-    return res
+    const response = await axios.get(`/api/reviews`);
+    return response.data.data.reviewStats.filter(
+      (review: AverageRatingProps) => review.productHandle === handle
+    );
   } catch (error) {
-    console.error("Error deleting review:", error);
+    console.log(error);
   }
 };

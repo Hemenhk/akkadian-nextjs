@@ -1,12 +1,15 @@
-import { client, fetchProductMetafields } from "./shopify-cred";
+import {
+  client,
+  fetchProductMetafields,
+  fetchProductVideos,
+} from "./shopify-cred";
 
 export const fetchProductWithHandle = async (handle: string) => {
   try {
     const product = await client.product.fetchByHandle(handle);
     const metafields = await fetchProductMetafields(handle);
-    console.log(product);
-
-    return { ...product, metafields };
+    const vidoes = await fetchProductVideos(handle);
+    return { ...product, metafields, vidoes };
   } catch (error) {
     console.log(error);
   }
@@ -24,6 +27,7 @@ export const fetchCollectionWithHandle = async (handle: string) => {
 export const fetchAllCollections = async () => {
   try {
     const collection = await client.collection.fetchAll();
+    console.log("collections", collection)
     return collection;
   } catch (error) {
     console.log(error);
@@ -50,7 +54,7 @@ export const fetchPrivacyPolicy = async () => {
 
 export const fetchReturnPolicy = async () => {
   try {
-    const termsPolicy = await client.shop.fetchPolicies();
+    const termsPolicy = (await client.shop.fetchInfo());
     return termsPolicy.refundPolicy;
   } catch (error) {
     console.log(error);

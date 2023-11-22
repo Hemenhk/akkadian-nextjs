@@ -19,7 +19,7 @@ export default function TheFooter() {
     >
       <div className="flex flex-row pl-5 pt-14 gap-8 h-3/4">
         <div>
-          <h2>Akkadian Ecommerce</h2>
+          <h2>Jawline</h2>
         </div>
         <div>
           <TheFooterMenu />
@@ -27,13 +27,11 @@ export default function TheFooter() {
       </div>
       <div className="flex items-center justify-between px-5  w-full h-1/4 border-t">
         <div className="flex flex-row gap-5">
-          <p className="font-light tracking-wide">
-            © 2023 AKKADIAN All rights reserved
-          </p>
-          |<p className="font-light tracking-wide"> Designed in Sweden</p>
+          <p className="font-light tracking-wide">Crafted by Hemen</p>|
+          <p className="font-light tracking-wide"> Designed in Sweden</p>
         </div>
         <div>
-          <p className="font-light tracking-wide">Crafted by Hemen</p>
+          <p className="font-light tracking-wide">Powered by Shopify</p>
         </div>
       </div>
     </div>

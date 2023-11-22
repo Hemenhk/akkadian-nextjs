@@ -12,33 +12,27 @@ import TheButton from "../ui/TheButton";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAdminValues } from "@/axios-instances/axios";
 
-
 export default function MainNav() {
-
   const { data: session } = useSession();
   const [hoverRef, isHovered] = useHover<HTMLDivElement>();
   const pathname = usePathname();
   const isAdminPage = pathname === "/admin";
   const isHomePage = pathname === "/";
 
-  const {data: logoValue} = useQuery({
+  const { data: logoValue } = useQuery({
     queryKey: ["admin"],
-    queryFn: fetchAdminValues
-  })
-
-  console.log("logo header", logoValue?.logo)
+    queryFn: fetchAdminValues,
+  });
 
   const signOutHandler = () => {
     signOut();
   };
 
-  
-
   const adminHeader = (
     <>
       <SideNav isHovered={isHovered} isHomePage={isHomePage} />
       <Link href={"/"}>
-        <Image src={logoValue?.logo} alt="logo" width={50} height={50} />
+        <Image src={logoValue?.logo} alt="logo" width={75} height={75} />
       </Link>
       <TheButton label="sign out" onClick={signOutHandler} width="w-[150px]" />
     </>
@@ -46,9 +40,9 @@ export default function MainNav() {
 
   const notAdminHeader = (
     <>
-      <SideNav isHovered={isHovered} isHomePage={isHomePage}/>
+      <SideNav isHovered={isHovered} isHomePage={isHomePage} />
       <Link href={"/"}>
-        <Image src={logoValue?.logo} alt="logo" width={50} height={50} />
+        <Image src={logoValue?.logo} alt="logo" width={120} height={120} />
       </Link>
       <CartIcon isHovered={isHovered} isHomePage={isHomePage} />
     </>

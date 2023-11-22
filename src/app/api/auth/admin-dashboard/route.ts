@@ -45,7 +45,7 @@ export async function PATCH(req: NextRequest) {
     const heroButtonText: string = reqBody.heroButtonText;
     const heroButtonColor: string = reqBody.heroButtonColor;
     const heroImage = reqBody.heroImage;
-    const logoImage = reqBody.logoImage;
+    const logo = reqBody.logo;
 
 
     console.log(announcementText);
@@ -67,7 +67,7 @@ export async function PATCH(req: NextRequest) {
           heroButtonColor: heroButtonColor,
           heroImage: heroImage,
           footerBackgroundColor: footerBackgroundColor,
-          logo: logoImage,
+          logo: logo,
         },
       }
     );

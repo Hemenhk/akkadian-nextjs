@@ -1,18 +1,30 @@
 "use client";
 
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import axios from "axios";
 import Rating from "@mui/material/Rating";
 import TextField from "@mui/material/TextField";
 import TheButton from "@/components/ui/TheButton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CreateReviewProps, postReview } from "@/axios-instances/axios";
 
 export default function ReviewForm({ productHandle }) {
-  const [reviewValues, setReviewValues] = useState({
+  const queryClient = useQueryClient();
+  const [reviewValues, setReviewValues] = useState<CreateReviewProps>({
     review: "",
     author: "",
     rating: 0,
     title: "",
-    productHandle: productHandle as string,
+    productHandle,
+  });
+
+  const { mutateAsync: createReviewMutation } = useMutation({
+    mutationFn: async (data: CreateReviewProps) => {
+      postReview(data);
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(["reviews"], data);
+      queryClient.refetchQueries({ queryKey: ["reviews"] });
+    },
   });
 
   const changeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -33,8 +45,14 @@ export default function ReviewForm({ productHandle }) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post(" /api/reviews", reviewValues);
-
+      const { rating, review, title, author, productHandle } = reviewValues;
+      await createReviewMutation({
+        rating,
+        review,
+        title,
+        author,
+        productHandle,
+      });
       setReviewValues({
         rating: 0,
         title: "",
@@ -42,7 +60,6 @@ export default function ReviewForm({ productHandle }) {
         author: "",
         productHandle,
       });
-      console.log(res);
     } catch (error) {
       console.log(error);
     }

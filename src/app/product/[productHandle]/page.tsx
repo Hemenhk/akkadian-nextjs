@@ -1,6 +1,7 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { fetchProductWithHandle } from "@/shopify/shopify-req";
 import SingleProduct from "@/components/single-product/SingleProduct";
+import ProductVideo from "@/components/single-product/video/ProductVideo";
 
 type Props = {
   params: { productHandle: string };
@@ -25,8 +26,9 @@ export async function generateMetadata(
 
 export default function ProductPage({ params }: Props) {
   return (
-    <>
+    <div className="overflow-x-hidden">
       <SingleProduct params={params}/>
-    </>
+      <ProductVideo  params={params}/>
+    </div>
   );
 }

@@ -71,7 +71,7 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.statics.calculateReviewStats = async function (
-  productHandle: string,
+  productHandle: string
 ) {
   const stats = await this.aggregate([
     {
@@ -85,8 +85,6 @@ reviewSchema.statics.calculateReviewStats = async function (
       },
     },
   ]);
-
-  console.log("Aggregation Pipeline Stats:", stats);
 
   if (stats.length > 0) {
     return stats[0];
