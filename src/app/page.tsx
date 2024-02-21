@@ -22,6 +22,8 @@ export default function Home() {
     height: "95vh",
   };
 
+  console.log("1", adminValues)
+
   return (
     <div className="flex flex-col items-center justify-center gap-5 pb-10">
       <div
