@@ -1,14 +1,17 @@
+"use client";
 
 import AdminNav from "@/components/nav/admin-nav/AdminNav";
 import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-export default async function AdminDashboard() {
+export default function AdminDashboard() {
+  // const session = await getServerSession();
+  const { data: session } = useSession();
+  console.log("session", session);
 
-  const session = await getServerSession()
-
-  if(!session){
-    redirect("/")
+  if (!session) {
+    redirect("/");
   }
   return (
     <div className="flex flex-col justify-center">

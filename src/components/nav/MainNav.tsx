@@ -9,8 +9,8 @@ import Link from "next/link";
 import SideNav from "./sidenav/SideNav";
 import CartIcon from "../cart/CartIcon";
 import TheButton from "../ui/TheButton";
-import { useQuery } from "@tanstack/react-query";
-import { fetchAdminValues } from "@/axios-instances/axios";
+
+import { useFetchDashboard } from "@/hooks/useFetchDashboard";
 
 export default function MainNav() {
   const { data: session } = useSession();
@@ -19,10 +19,7 @@ export default function MainNav() {
   const isAdminPage = pathname === "/admin";
   const isHomePage = pathname === "/";
 
-  const { data: logoValue } = useQuery({
-    queryKey: ["admin"],
-    queryFn: fetchAdminValues,
-  });
+  const { data: logoValue } = useFetchDashboard();
 
   const signOutHandler = () => {
     signOut();

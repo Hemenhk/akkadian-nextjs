@@ -1,21 +1,18 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { fetchAdminValues } from "@/axios-instances/axios";
+import { useFetchDashboard } from "@/hooks/useFetchDashboard";
 
 export default function TheAnnouncement() {
-  const { data: adminValues } = useQuery({
-    queryKey: ["admin"],
-    queryFn: fetchAdminValues,
-  });
-
+  const { data: announcementColor } = useFetchDashboard();
 
   return (
     <div
       className={`flex justify-center items-center h-[5vh]`}
-      style={{ background: adminValues?.announcementColor }}
+      style={{ background: announcementColor?.announcementColor }}
     >
-      <p className="tracking-widest text-white uppercase">{adminValues?.announcementText}</p>
+      <p className="tracking-widest text-white uppercase">
+        {announcementColor?.announcementText}
+      </p>
     </div>
   );
 }

@@ -1,7 +1,13 @@
 import { Metadata } from "next";
 import React from "react";
-import Home from "../page";
+
 import AdminLayoutProvider from "../context/admin-layout";
+import {
+  QueryClient,
+  HydrationBoundary,
+  dehydrate,
+} from "@tanstack/react-query";
+import { fetchAdminValues } from "@/axios-instances/axios";
 
 type AdminProps = {
   children: React.ReactNode;
@@ -12,14 +18,21 @@ export const metadata: Metadata = {
   description: "The dashboard for the store admin",
 };
 
-export default function AdminDashboardLayout({ children,  }: AdminProps) {
+export default async function AdminDashboardLayout({ children }: AdminProps) {
+  const queryClient = new QueryClient();
 
+  await queryClient.prefetchQuery({
+    queryKey: ["admin"],
+    queryFn: fetchAdminValues,
+  });
 
   return (
     <section className="flex flex-row">
-          <AdminLayoutProvider>
-            {children}
-          </AdminLayoutProvider>
+      <AdminLayoutProvider>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          {children}
+        </HydrationBoundary>
+      </AdminLayoutProvider>
     </section>
   );
 }

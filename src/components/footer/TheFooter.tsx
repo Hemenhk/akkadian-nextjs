@@ -1,21 +1,17 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useFetchDashboard } from "@/hooks/useFetchDashboard";
 import TheFooterMenu from "./footer-menu/TheFooterMenu";
 
 import classes from "./styles/TheFooter.module.css";
-import { fetchAdminValues } from "@/axios-instances/axios";
 
 export default function TheFooter() {
-  const { data: adminValues } = useQuery({
-    queryKey: ["admin"],
-    queryFn: fetchAdminValues,
-  });
+  const { data: footer } = useFetchDashboard();
 
   return (
     <div
       className={`flex flex-col gap-8 h-80 text-gray-200  ${classes.container}`}
-      style={{ background: adminValues?.footerBackgroundColor }}
+      style={{ background: footer?.footerBackgroundColor }}
     >
       <div className="flex flex-row pl-5 pt-14 gap-8 h-3/4">
         <div>
