@@ -1,14 +1,11 @@
 "use client";
 
 import AdminNav from "@/components/nav/admin-nav/AdminNav";
-import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export default function AdminDashboard() {
-  // const session = await getServerSession();
   const { data: session } = useSession();
-  console.log("session", session);
 
   if (!session) {
     redirect("/");
