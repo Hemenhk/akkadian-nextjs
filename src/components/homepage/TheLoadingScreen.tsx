@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import logo from "@/assets/images/akkadian-logo.png";
+import logo from "../../assets/images/akkadian-logo.png";
 import Image from "next/image";
 
 export default function TheLoadingScreen() {
