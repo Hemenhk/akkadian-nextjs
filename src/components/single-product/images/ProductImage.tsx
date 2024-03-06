@@ -1,10 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { Image as IImage } from "shopify-buy";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 type ImageProps = {
   images: IImage[];
@@ -12,46 +20,53 @@ type ImageProps = {
 };
 
 export default function ProductImage({ images }: ImageProps) {
-  const [currentImageIdx, setCurrentImageIdx] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
-  const nextImage = () => {
-    if (currentImageIdx === 0) setCurrentImageIdx((prevIdx) => prevIdx + 1);
-  };
-  const prevImage = () => {
-    if (currentImageIdx > 0) setCurrentImageIdx((prevIdx) => prevIdx - 1);
-  };
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
 
-  // console.log("img", images);
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      console.log("current");
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
   if (images.length === 0) {
     return <p>No images available</p>;
   }
 
   return (
-    <div className="flex flex-col justify-center items-center mt-3 gap-5">
-      <Image
-        src={images[currentImageIdx]?.src || images[0]?.src}
-        alt="product image"
-        width={400}
-        height={400}
-      />
-      {images.length > 1 ? (
-        <div className="flex justify-between items-center gap-10">
-          <button onClick={prevImage} className="bg-transparent">
-            <MdKeyboardArrowLeft size={20} />
-          </button>
-          {images.map((_, idx) => (
-            <div
-              key={idx}
-              className={`flex w-[8px] h-[8px] rounded-[50%] ${idx === currentImageIdx ? "bg-black" : "bg-slate-400"}`}
-            />
+    <div>
+      <Carousel setApi={setApi} className="w-full max-w-xs">
+        <CarouselContent>
+          {images.map((image, index) => (
+            <CarouselItem key={index}>
+              <Card>
+                <CardContent className="flex aspect-square items-center justify-center p-6 bg-[#fafafa]">
+                  <Image
+                    src={image.src}
+                    alt={image.altText}
+                    width={400}
+                    height={400}
+                  />
+                </CardContent>
+              </Card>
+            </CarouselItem>
           ))}
-          <button onClick={nextImage} className="bg-transparent">
-            <MdKeyboardArrowRight size={20} />
-          </button>
-        </div>
-      ) : (
-        ""
-      )}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+      <div className="py-2 text-center text-sm text-muted-foreground">
+        Slide {current} of {count}
+      </div>
     </div>
   );
 }
